@@ -1,0 +1,68 @@
+---
+import { contact } from '../content/interface';
+import BrandMark from './BrandMark.astro';
+interface Props { lang: 'es' | 'en'; }
+const { lang } = Astro.props;
+const es = lang === 'es';
+---
+<project-cta>
+  <section id="start-project" aria-labelledby="project-cta-title">
+    <a class="project-invitation" href="#contact" aria-label={es ? 'Háblame de tu proyecto: contactar por correo o WhatsApp' : 'Tell me about your project: contact by email or WhatsApp'}>
+      <span class="profile-photo" aria-hidden="true">{contact.profilePhoto ? <img src={contact.profilePhoto} width="96" height="96" alt="" loading="lazy" /> : <BrandMark />}</span>
+      <div class="speech-bubble glass-panel"><h2 id="project-cta-title">{es ? 'Háblame de' : 'Tell me about'} <span>{es ? 'tu proyecto' : 'your project'}</span></h2><span class="bubble-arrow" aria-hidden="true">↗</span></div>
+    </a>
+  </section>
+  <div class="contact-pointer" aria-hidden="true" hidden>
+    <svg viewBox="0 0 100 32" fill="none"><path d="M4 16h86M76 4l14 12-14 12" /></svg>
+  </div>
+</project-cta>
+<script>
+  class ProjectCTA extends HTMLElement {
+    connectedCallback() {
+      const invitation = this.querySelector('.speech-bubble')!;
+      const pointer = this.querySelector<HTMLElement>('.contact-pointer')!;
+      const dock = document.querySelector<HTMLElement>('.contact-dock');
+      if (!dock) return;
+      const position = () => {
+        const bounds = dock.getBoundingClientRect();
+        pointer.style.left = `${bounds.left - pointer.offsetWidth - 16}px`;
+        pointer.style.top = `${bounds.top + bounds.height / 2 - 16}px`;
+      };
+      const observer = new IntersectionObserver(([entry]) => {
+        pointer.hidden = !entry.isIntersecting;
+        if (entry.isIntersecting) position();
+      }, { threshold: .5 });
+      observer.observe(invitation);
+      const resize = new ResizeObserver(position);
+      resize.observe(dock);
+      window.addEventListener('resize', position);
+      this.querySelector('a')!.addEventListener('click', () => {
+        dock.querySelector<HTMLAnchorElement>('a')?.focus({ preventScroll: true });
+      });
+      this.cleanup = () => { observer.disconnect(); resize.disconnect(); window.removeEventListener('resize', position); };
+    }
+    cleanup?: () => void;
+    disconnectedCallback() { this.cleanup?.(); }
+  }
+  if (!customElements.get('project-cta')) customElements.define('project-cta', ProjectCTA);
+</script>
+<style>
+  project-cta { display:block; }
+  section { padding-block:55px 65px; border-top:1px solid var(--border); background:var(--background); }
+  .project-invitation { display:flex; align-items:center; gap:24px; width:fit-content; max-width:100%; margin-inline:auto; }
+  .profile-photo { display:grid; place-items:center; width:96px; height:96px; flex-shrink:0; border-radius:50%; border:1px solid #7aa8eb60; background:var(--blue-metal); overflow:hidden; box-shadow:0 0 30px #568bdb20; }
+  .profile-photo img { width:100%; height:100%; object-fit:cover; }
+  .speech-bubble { position:relative; display:flex; align-items:center; gap:24px; padding:24px 30px; border:1px solid #7aa8eb40; background:#112b49f5; transition:border-color .3s,box-shadow .3s; }
+  .speech-bubble::before { content:''; position:absolute; left:-8px; top:calc(50% - 8px); width:14px; height:14px; transform:rotate(45deg); background:#112b49; border-left:1px solid #7aa8eb40; border-bottom:1px solid #7aa8eb40; }
+  h2 { margin:0; color:white; font:500 clamp(24px,2.6vw,32px)/1.3 var(--title-font); letter-spacing:-.025em; }
+  h2 span { color:var(--blue-light); }
+  .bubble-arrow { color:var(--red-highlight); font-size:28px; transition:transform .3s; }
+  .project-invitation:hover .speech-bubble { border-color:var(--blue-light); box-shadow:0 12px 30px #568bdb15; }
+  .project-invitation:hover .bubble-arrow { transform:translate(3px,-3px); }
+  .contact-pointer { position:fixed; width:100px; height:32px; z-index:109; pointer-events:none; color:white; filter:drop-shadow(0 0 8px #568bdb90); }
+  .contact-pointer[hidden] { display:none; }
+  .contact-pointer svg { width:100%; height:100%; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round; animation:contact-nudge 1.4s ease-in-out infinite; }
+  @keyframes contact-nudge { 0%,100% { transform:translateX(-8px); } 50% { transform:translateX(6px); } }
+  @media(max-width:600px) { section { padding-block:40px 50px; } .project-invitation { gap:16px; } .profile-photo { width:64px; height:64px; } .speech-bubble { padding:18px 20px; gap:12px; } h2 { font-size:22px; } .bubble-arrow { font-size:22px; } .contact-pointer { width:70px; } }
+  @media(prefers-reduced-motion:reduce) { .contact-pointer svg { animation:none; } .speech-bubble,.bubble-arrow { transition:none; } }
+</style>

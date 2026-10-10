@@ -1,0 +1,21 @@
+---
+interface Props { compact?: boolean; }
+const { compact = false } = Astro.props;
+---
+<div class:list={['arc-reactor', { compact }]} aria-hidden="true">
+  <div class="orbit"></div><div class="outer"></div><div class="segments"></div>
+  <div class="inner"></div><div class="core"></div>
+</div>
+<style>
+  .arc-reactor { position: relative; width: min(100%, 330px); aspect-ratio: 1; }
+  .arc-reactor > div { position: absolute; border-radius: 50%; }
+  .orbit { inset: 0; border: 1px dashed #6ce7f75c; border-top: 2px solid #dfbc7a; animation: orbit 24s linear infinite; }
+  .outer { inset: 8%; border: 2px solid #6ce7f77a; box-shadow: 0 0 30px #6ce7f712, inset 0 0 24px #6ce7f712; }
+  .segments { inset: 15%; border: 14px dashed #83eaff; box-shadow: 0 0 24px #6ce7f730; animation: orbit 40s linear infinite reverse; }
+  .inner { inset: 24%; border: 2px solid #a5f3ff; box-shadow: 0 0 20px #6ce7f730; }
+  .core { inset: 33%; background: radial-gradient(circle, #e5fdff, #9deeff 55%, #51cddd); box-shadow: 0 0 35px #6ce7f770, 0 0 90px #6ce7f730; }
+  .compact { width: 170px; }
+  .compact .segments { border-width: 8px; }
+  @keyframes orbit { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) { .orbit, .segments { animation: none; } }
+</style>

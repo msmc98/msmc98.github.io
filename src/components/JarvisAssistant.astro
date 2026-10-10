@@ -1,0 +1,85 @@
+---
+interface Props { lang: 'es' | 'en'; }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const commands = [
+  { target: 'projects', label: es ? 'Ver proyectos' : 'View projects', response: es ? 'Abriendo el archivo de proyectos. Aquí puedes explorar el trabajo de Manuel y visitar cada sitio.' : 'Opening the project archive. Explore Manuel’s work and visit each website.' },
+  { target: 'skills', label: es ? 'Consultar habilidades' : 'Explore skills', response: es ? 'Expediente híbrido: desarrollo con Django y Laravel, conocimientos en administración y ciencia de datos. Abriendo módulos de capacidades.' : 'Hybrid profile: Django and Laravel development, administration and Data Science knowledge. Opening capability modules.' },
+  { target: 'experience', label: es ? 'Ver experiencia' : 'View experience', response: es ? 'Abriendo la trayectoria profesional: seis puestos desde 2022, con funciones en desarrollo web y móvil, ERP y administración de servidores.' : 'Opening the career timeline: six roles since 2022, covering web and mobile development, ERP systems and server administration.' },
+  { target: 'contact', label: es ? 'Contactar' : 'Get in touch', response: es ? 'Usa los botones flotantes de correo y WhatsApp. También encontrarás LinkedIn al pie de la página.' : 'Use the floating email and WhatsApp buttons. You can also find LinkedIn at the bottom of the page.' },
+];
+const answers = es ? {
+  skills: 'Manuel trabaja principalmente con Django y Laravel. Este portfolio está construido con Astro. Su perfil combina desarrollo web, conocimientos en administración y ciencia de datos.',
+  admin: 'Su perfil híbrido conecta el desarrollo técnico con conocimientos en administración, requisitos del cliente y gestión de productos digitales.',
+  data: 'Manuel tiene conocimientos en ciencia de datos y una perspectiva que conecta los datos con las necesidades del negocio.',
+  profile: 'Manuel S. Muñoz Cobos es desarrollador web integral, ubicado en Córdoba, España. Combina desarrollo, administración y conocimientos en ciencia de datos.',
+  fallback: 'Puedo ayudarte con el perfil de Manuel, sus tecnologías, proyectos o contacto. Prueba con «¿Qué tecnologías utiliza?» o elige uno de los accesos rápidos.',
+} : {
+  skills: 'Manuel mainly works with Django and Laravel. This portfolio is built with Astro. His profile combines web development, administration and Data Science knowledge.',
+  admin: 'His hybrid profile connects technical development with administration knowledge, client requirements and digital product management.',
+  data: 'Manuel has Data Science knowledge and a perspective that connects data with business needs.',
+  profile: 'Manuel S. Muñoz Cobos is a Full Stack Web Developer based in Córdoba, Spain. His profile combines development, administration and Data Science knowledge.',
+  fallback: 'I can help with Manuel’s profile, technologies, projects or contact details. Try “What technologies does he use?” or choose a quick link.',
+};
+---
+<jarvis-assistant class="glass-panel" data-answers={JSON.stringify(answers)}>
+  <div class="assistant-heading"><span class="dot"></span><strong>J.A.R.V.I.S.</strong><span class="mode">{es ? 'ASISTENTE DEL PORTFOLIO' : 'PORTFOLIO ASSISTANT'}</span></div>
+  <p role="status" aria-live="polite">{es ? 'Bienvenido. Soy tu guía por el portfolio de Manuel. ¿Qué quieres conocer?' : 'Welcome. I’m your guide to Manuel’s portfolio. What would you like to explore?'}</p>
+  <div class="commands">{commands.map((command) => <a href={`#${command.target}`} data-response={command.response}>{command.label}<span aria-hidden="true"> ↗</span></a>)}</div>
+  <form>
+    <label for="jarvis-question">{es ? 'Pregunta sobre mi perfil' : 'Ask about my profile'}</label>
+    <div class="input-row"><input id="jarvis-question" name="question" type="text" maxlength="300" required autocomplete="off" placeholder={es ? '¿Qué tecnologías utiliza Manuel?' : 'What technologies does Manuel use?'} /><button type="submit">{es ? 'Enviar' : 'Send'} <span aria-hidden="true">↗</span></button></div>
+  </form>
+</jarvis-assistant>
+<script>
+  class JarvisAssistant extends HTMLElement {
+    connectedCallback() {
+      const answers: Record<string, string> = JSON.parse(this.dataset.answers || '{}');
+      const status = this.querySelector('[role="status"]');
+      this.querySelectorAll<HTMLAnchorElement>('[data-response]').forEach((link) => {
+        link.onclick = () => {
+          const status = this.querySelector('[role="status"]');
+          if (status) status.textContent = link.dataset.response || '';
+        };
+      });
+      const form = this.querySelector('form');
+      const input = this.querySelector('input');
+      if (form && input) form.onsubmit = (event) => {
+        event.preventDefault();
+        const question = input.value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        if (!question || !status) return;
+        const answer = /django|laravel|astro|tecnolog|technolog|habilidad|skills|stack/.test(question) ? answers.skills
+          : /administra|negocio|business|gestion/.test(question) ? answers.admin
+          : /data|datos|ciencia|science/.test(question) ? answers.data
+          : /experiencia|experience|career|trayectoria|empleo/.test(question) ? this.querySelector<HTMLAnchorElement>('[href="#experience"]')?.dataset.response
+          : /proyect|project|trabajos|work|portfolio/.test(question) ? this.querySelector<HTMLAnchorElement>('[href="#projects"]')?.dataset.response
+          : /contact|linkedin|correo|email|whatsapp/.test(question) ? this.querySelector<HTMLAnchorElement>('[href="#contact"]')?.dataset.response
+          : /manuel|quien|perfil|profile|about|who/.test(question) ? answers.profile
+          : answers.fallback;
+        status.textContent = answer || answers.fallback;
+        document.dispatchEvent(new CustomEvent('portfolio:quest', { detail: 'assistant' }));
+        input.value = '';
+      };
+    }
+  }
+  if (!customElements.get('jarvis-assistant')) customElements.define('jarvis-assistant', JarvisAssistant);
+</script>
+<style>
+  jarvis-assistant { display: block; margin-top: 38px; max-width: 620px; padding: 22px; border: 1px solid #7aa8eb50; border-radius: var(--radius-panel); background: #0b1d3bfa; box-shadow: inset 0 1px 0 #ffffff16, 0 18px 45px #08152d60; }
+  .assistant-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-family: var(--mono-font); font-size: 11px; color: var(--blue-light); letter-spacing: .1em; }
+  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue-light); box-shadow: 0 0 12px #568bdb80; }
+  .mode { margin-left: auto; font-size: 9px; color: var(--text-muted); }
+  p { color: var(--text-muted); font-size: 12px; line-height: 1.9; min-height: 3.8em; margin: 18px 0; }
+  .commands { display: flex; flex-wrap: wrap; gap: 8px; }
+  a { padding: 10px 12px; border: 1px solid var(--border); font-size: 10px; color: var(--text); transition: background 180ms; }
+  a:hover { background: #568bdb12; border-color: var(--blue-light); }
+  a span { color: var(--blue-light); }
+  form { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
+  label { display: block; margin-bottom: 10px; color: var(--text-muted); font-size: 10px; }
+  .input-row { display: flex; gap: 8px; }
+  input { min-width: 0; width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 0; background: var(--background); color: var(--text); font-size: 11px; }
+  input::placeholder { color: var(--text-muted); }
+  button { padding: 11px 12px; background: #568bdb10; border: 1px solid var(--border); color: var(--blue-light); cursor: pointer; font-size: 10px; white-space: nowrap; }
+  button:hover { border-color: var(--blue-light); }
+  @media (max-width: 480px) { jarvis-assistant { padding: 18px; } .mode { width: 100%; margin: 0; } }
+</style>

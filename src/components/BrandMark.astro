@@ -1,0 +1,11 @@
+---
+import monogram from '../../public/images/brand/monogram.svg?raw';
+---
+<span class="brand-symbol" aria-hidden="true" set:html={monogram} />
+<style>
+  .brand-symbol { display:block; width:64px; height:64px; flex-shrink:0; transition:filter .35s; }
+  .brand-symbol :global(svg) { width:100%; height:100%; }
+  :global(.brand:hover) .brand-symbol, :global(.brand:focus-visible) .brand-symbol { filter:drop-shadow(0 0 12px #7aa8eb50); }
+  @media(max-width:760px) { .brand-symbol { width:48px; height:48px; } }
+  @media(prefers-reduced-motion:reduce) { .brand-symbol { transition:none; } }
+</style>

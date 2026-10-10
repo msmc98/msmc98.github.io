@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import { technologyCategories, technologyFilters } from '../content/technologies';
+interface Props { lang: 'es' | 'en'; }
+const { lang } = Astro.props;
+const es = lang === 'es';
+---
+<technology-catalogue>
+  <div class="catalogue-heading"><h3>{es ? 'Tecnologías y herramientas' : 'Technologies & tools'}</h3><Icon name="code" size={26} /></div>
+  <div class="technology-filters" role="group" aria-label={es ? 'Filtrar tecnologías' : 'Filter technologies'}>{technologyFilters.map(filter => <button type="button" data-tech-filter={filter.id} data-categories={JSON.stringify(filter.categories)} aria-pressed={filter.id === 'all'}>{filter.label[lang]}</button>)}</div>
+  <div class="technology-grid">{technologyCategories.map(category => <article class="technology-category glass-panel" data-tech-category={category.id}><div class="category-heading"><Icon name={category.icon} size={22} /><h4>{category.title[lang]}</h4></div><ul>{category.items.map(item => <li>{item}</li>)}</ul></article>)}</div>
+  <div class="practice-grid">
+    <article class="practice glass-panel"><Icon name="plan" /><h4>{es ? 'Arquitectura y procesos' : 'Architecture & processes'}</h4><ul>{(es ? ['API REST e integración de servicios', 'Uso extensivo de WordPress y desarrollo de ERP a medida', 'Plugins y módulos personalizados en PHP para FacturaScripts y WordPress', 'Cuadros de mando en Power BI con modelos de datos en estrella', 'Administración de servidores Linux y acceso mediante FTP y SSH', 'Despliegue automático con GitHub Actions y contenedores Docker', 'Pruebas funcionales, resolución de incidencias y Scrum', 'Excel y Word a nivel profesional'] : ['REST APIs & service integration', 'Extensive WordPress use & custom ERP development', 'Custom PHP plugins & modules for FacturaScripts and WordPress', 'Power BI dashboards with star schema data models', 'Linux server administration and access through FTP & SSH', 'Automated deployment with GitHub Actions & Docker containers', 'Functional testing, issue resolution & Scrum', 'Professional proficiency in Excel & Word']).map(item => <li>{item}</li>)}</ul></article>
+    <article class="practice ai-practice glass-panel"><Icon name="spark" /><h4>{es ? 'Desarrollo con apoyo de IA' : 'AI-assisted development'}</h4><p>{es ? 'Desarrollo con Codex y Claude Code para ampliar mi capacidad de trabajo y abordar nuevas tecnologías según lo que necesita cada proyecto. Combino ese apoyo con mis conocimientos de programación, datos y negocio.' : 'I develop with Codex and Claude Code to extend my capabilities and approach new technologies according to each project’s needs, combining that support with my programming, data and business knowledge.'}</p><ul>{(es ? ['Scripts y automatización con Python', 'Generación de modelos con Keras y scikit-learn', 'Uso de Neo4j en soluciones de inteligencia artificial', 'Exploración de nuevos lenguajes y herramientas'] : ['Python scripts & automation', 'Model development with Keras & scikit-learn', 'Using Neo4j in artificial intelligence solutions', 'Exploring new languages & tools']).map(item => <li>{item}</li>)}</ul></article>
+  </div>
+</technology-catalogue>
+<script>
+  class TechnologyCatalogue extends HTMLElement {
+    connectedCallback() {
+      const filters = this.querySelectorAll<HTMLButtonElement>('[data-tech-filter]');
+      filters.forEach(button => button.onclick = () => {
+        const categories: string[] = JSON.parse(button.dataset.categories || '[]');
+        filters.forEach(filter => filter.setAttribute('aria-pressed', String(filter === button)));
+        this.querySelectorAll<HTMLElement>('[data-tech-category]').forEach(category => category.hidden = categories.length > 0 && !categories.includes(category.dataset.techCategory || ''));
+      });
+    }
+  }
+  if (!customElements.get('technology-catalogue')) customElements.define('technology-catalogue', TechnologyCatalogue);
+</script>
+<style>
+  technology-catalogue { display:block; margin-top:70px; }
+  .catalogue-heading { display:flex; align-items:center; justify-content:space-between; gap:20px; padding-bottom:20px; border-bottom:1px solid var(--border); color:white; }
+  h3 { margin:0; font:500 clamp(26px,3vw,38px)/1.2 var(--title-font); letter-spacing:-.025em; }
+  .technology-filters { display:flex; flex-wrap:wrap; gap:8px; margin:24px 0; }
+  .technology-filters button { padding:11px 16px; color:var(--text-muted); background:var(--background); border:1px solid var(--border); border-radius:var(--radius-panel); font-size:11px; cursor:pointer; }
+  .technology-filters button[aria-pressed=true] { color:white; background:var(--red-metal); border-color:var(--red-highlight); }
+  .technology-grid { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:16px; }
+  .technology-category { padding:25px; border:1px solid var(--border); }
+  .category-heading { display:flex; align-items:center; gap:12px; color:var(--blue-light); margin-bottom:20px; }
+  h4 { margin:0; font:500 17px/1.4 var(--title-font); color:white; }
+  ul { margin:0; padding:0; list-style:none; display:flex; flex-wrap:wrap; gap:8px; }
+  .technology-category li { padding:8px 10px; border:1px solid #7aa8eb30; border-radius:var(--radius-panel); color:white; font-size:11px; line-height:1.5; }
+  .practice-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px; margin-top:16px; }
+  .practice { padding:28px; border:1px solid var(--border); }
+  .practice > :global(svg) { color:var(--blue-light); margin-bottom:14px; }
+  .practice ul { display:block; margin-top:20px; } .practice li { font-size:12px; line-height:1.8; color:var(--text-muted); padding:6px 0; border-top:1px solid var(--border); }
+  .practice p { color:var(--text-muted); font-size:12px; line-height:1.9; margin:16px 0 0; }
+  .ai-practice { border-color:#f04a5c50; }
+  button:focus-visible { outline:2px solid var(--blue-light); outline-offset:4px; }
+  [hidden] { display:none !important; }
+  @media(max-width:1000px) { .technology-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+  @media(max-width:650px) { technology-catalogue { margin-top:45px; } .technology-grid,.practice-grid { grid-template-columns:1fr; } .technology-category,.practice { padding:22px; } .technology-filters { gap:6px; } .technology-filters button { padding:10px 12px; } }
+</style>

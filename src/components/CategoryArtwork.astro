@@ -1,0 +1,29 @@
+---
+import Icon from './Icon.astro';
+interface Props { category: string; }
+const { category } = Astro.props;
+const motifs: Record<string, string[]> = {
+  cinema: ['film', 'spark', 'film', 'chat', 'film', 'spark'],
+  anime: ['spark', 'code', 'spark', 'plan', 'spark', 'globe'],
+  travel: ['globe', 'map', 'building', 'globe', 'map', 'building'],
+  sports: ['sport', 'spark', 'sport', 'briefcase', 'sport', 'spark'],
+  animals: ['pets', 'spark', 'pets', 'pets', 'spark', 'pets'],
+  games: ['game', 'code', 'spark', 'game', 'code', 'game'],
+  music: ['music', 'spark', 'music', 'film', 'music', 'spark'],
+  passions: ['bike', 'football', 'spark', 'football', 'bike', 'football'],
+};
+---
+<span class="category-art" aria-hidden="true">
+  <svg class="art-lines" viewBox="0 0 300 180" preserveAspectRatio="xMidYMid slice"><path d="M-40 45 340 45 M-40 135 340 135 M50-40V220 M230-40V220"/><circle cx="148" cy="88" r="72"/><circle cx="148" cy="88" r="83"/><path d="m-20 180 160-200 M180 210 150-210"/></svg>
+  {(motifs[category] || motifs.travel).map((name, i) => <span class={`motif motif-${i}`}><Icon name={name} size={i % 2 ? 26 : 40} /></span>)}
+</span>
+<style>
+  .category-art { position:absolute; inset:0; pointer-events:none; overflow:hidden; color:#fff; }
+  .art-lines { width:100%; height:100%; fill:none; stroke:currentColor; stroke-width:.65; opacity:.16; }
+  .motif { position:absolute; opacity:.35; transition:transform .6s,opacity .4s; }
+  .motif-0 { right:15%; top:12%; transform:rotate(-18deg); } .motif-1 { left:40%; top:5%; transform:rotate(15deg); }
+  .motif-2 { right:-5%; bottom:8%; transform:rotate(12deg); } .motif-3 { left:8%; top:30%; transform:rotate(-12deg); }
+  .motif-4 { right:40%; bottom:5%; transform:rotate(20deg); } .motif-5 { right:2%; top:0; transform:rotate(-20deg); }
+  :global(.category-tile:hover) .motif, :global(.category-tile[aria-pressed=true]) .motif { opacity:.55; transform:rotate(0deg) translateY(-3px); }
+  @media(prefers-reduced-motion:reduce) { .motif { transition:none; } }
+</style>

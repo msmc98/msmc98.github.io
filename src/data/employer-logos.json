@@ -1,0 +1,56 @@
+{
+  "adgency-pixel": {
+    "url": "https://adgencypixel.com",
+    "src": "/images/employers/adgency-pixel.png",
+    "width": 81,
+    "height": 76,
+    "plate": "light",
+    "originalUrl": "https://adgencypixel.com/wp-content/uploads/2024/11/Recurso-2.webp",
+    "retrievedAt": "2026-10-08T20:15:48.418Z"
+  },
+  "simj": {
+    "url": "https://simj.es",
+    "src": "/images/employers/simj.png",
+    "width": 480,
+    "height": 151,
+    "plate": "light",
+    "originalUrl": "https://simj.es/wp-content/uploads/2024/04/Logotipo-black-768x241.png",
+    "retrievedAt": "2026-10-08T20:15:48.961Z"
+  },
+  "tictac": {
+    "url": "https://tictac-comunicacion.es",
+    "src": "/images/employers/tictac.png",
+    "width": 303,
+    "height": 83,
+    "plate": "dark",
+    "originalUrl": "https://tictac-comunicacion.es/wp-content/uploads/2025/10/Logo.svg",
+    "retrievedAt": "2026-10-08T20:15:49.134Z"
+  },
+  "whitekong": {
+    "url": "https://whitekongsoftware.com",
+    "src": "/images/employers/whitekong.png",
+    "width": 480,
+    "height": 135,
+    "plate": "dark",
+    "originalUrl": "https://whitekongsoftware.com/wp-content/themes/white_kong_software/static/brand/logo.png",
+    "retrievedAt": "2026-10-08T20:15:49.316Z"
+  },
+  "eccuo": {
+    "url": "https://www.eccuo.com",
+    "src": "/images/employers/eccuo.png",
+    "width": 473,
+    "height": 98,
+    "plate": "light",
+    "originalUrl": "https://www.eccuo.com/wp-content/uploads/2026/04/eccuo-digital.svg",
+    "retrievedAt": "2026-10-08T20:15:49.648Z"
+  },
+  "aicor": {
+    "url": "https://aicor.com",
+    "src": "/images/employers/aicor.png",
+    "width": 220,
+    "height": 55,
+    "plate": "light",
+    "originalUrl": "https://aicor.com/wp-content/uploads/2023/11/aicor_logo-color.png.webp",
+    "retrievedAt": "2026-10-08T20:16:21.300Z"
+  }
+}

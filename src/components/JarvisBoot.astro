@@ -1,0 +1,79 @@
+---
+import ArcReactor from './ArcReactor.astro';
+interface Props { lang: 'es' | 'en'; }
+const { lang } = Astro.props;
+const es = lang === 'es';
+const messages = es
+  ? ['Inicializando sistemas…', 'Cargando protocolo J.A.R.V.I.S.…', 'Sincronizando perfil y proyectos…', 'Sistemas listos. Bienvenido.']
+  : ['Initializing systems…', 'Loading J.A.R.V.I.S. protocol…', 'Synchronizing profile and projects…', 'Systems ready. Welcome.'];
+---
+<jarvis-boot data-messages={JSON.stringify(messages)}>
+  <dialog aria-labelledby="boot-title" aria-describedby="boot-message">
+    <div class="boot-console">
+      <header><span>{es ? 'INTERFAZ PERSONAL / MODELO 01' : 'PERSONAL INTERFACE / MARK 01'}</span><span class="online">● {es ? 'CONEXIÓN ESTABLECIDA' : 'CONNECTION ESTABLISHED'}</span></header>
+      <div class="reactor-wrap"><ArcReactor compact /></div>
+      <h2 id="boot-title">{es ? 'Activando modo' : 'Activating'} <span>J.A.R.V.I.S</span></h2>
+      <p id="boot-message" role="status" aria-live="polite">{messages[0]}</p>
+      <div class="progress-label" aria-hidden="true"><span>{es ? 'SISTEMA DEL PORTFOLIO' : 'PORTFOLIO SYSTEM'}</span><span data-percent>0%</span></div>
+      <progress value="0" max="100" aria-label={es ? 'Progreso de la bienvenida' : 'Welcome sequence progress'}></progress>
+      <footer><span>MANUEL S. MUÑOZ COBOS</span><button type="button" autofocus>{es ? 'Saltar intro' : 'Skip intro'} ↗</button></footer>
+    </div>
+  </dialog>
+</jarvis-boot>
+<script>
+  class JarvisBoot extends HTMLElement {
+    private timer?: number;
+    connectedCallback() {
+      const dialog = this.querySelector('dialog');
+      const progress = this.querySelector('progress');
+      const percent = this.querySelector('[data-percent]');
+      const message = this.querySelector('[role="status"]');
+      const button = this.querySelector('button');
+      if (!dialog || !progress || !percent || !message || !button) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches || !dialog.showModal) return;
+      const messages: string[] = JSON.parse(this.dataset.messages || '[]');
+      const finish = () => {
+        clearInterval(this.timer);
+        dialog.close();
+      };
+      button.onclick = finish;
+      dialog.oncancel = (event) => { event.preventDefault(); finish(); };
+      const start = performance.now();
+      let lastStage = 0;
+      dialog.showModal();
+      this.timer = window.setInterval(() => {
+        const elapsed = performance.now() - start;
+        const value = Math.min(100, Math.floor(elapsed / 26));
+        progress.value = value;
+        percent.textContent = `${value}%`;
+        const stage = value < 28 ? 0 : value < 60 ? 1 : value < 100 ? 2 : 3;
+        if (stage !== lastStage) { message.textContent = messages[stage]; lastStage = stage; }
+        if (elapsed >= 3100) finish();
+      }, 80);
+    }
+    disconnectedCallback() { clearInterval(this.timer); }
+  }
+  if (!customElements.get('jarvis-boot')) customElements.define('jarvis-boot', JarvisBoot);
+</script>
+<style>
+  dialog { position: fixed; inset: 0; width: 100%; height: 100%; max-width: none; max-height: none; margin: 0; padding: 28px; border: 0; color: #ffffff; background: radial-gradient(ellipse at 50% 35%, #173a69, #08152d 65%); font-family: var(--mono-font); }
+  dialog[open] { display: grid; place-items: center; }
+  dialog::backdrop { background: #08152d; }
+  .boot-console { width: min(100%, 620px); }
+  header, footer, .progress-label { display: flex; align-items: center; justify-content: space-between; gap: 18px; font-size: 10px; line-height: 1.7; letter-spacing: .08em; color: #ffffffb3; }
+  header { padding-bottom: 20px; border-bottom: 1px solid #568bdb2b; }
+  .online { color: var(--text); }
+  .reactor-wrap { display: flex; justify-content: center; margin: 48px 0 36px; }
+  h2 { font: 500 clamp(24px, 5vw, 34px)/1.3 var(--title-font); letter-spacing: -.03em; text-align: center; text-wrap: balance; }
+  h2 span { color: var(--blue-light); }
+  [role='status'] { min-height: 3em; margin: 18px 0; text-align: center; color: #ffffffb3; font-size: 12px; line-height: 1.8; }
+  .progress-label { margin-bottom: 10px; }
+  progress { appearance: none; width: 100%; height: 4px; display: block; border: 0; border-radius: 3px; overflow: hidden; background: #17365c; accent-color: var(--blue-light); }
+  progress::-webkit-progress-bar { background: #17365c; }
+  progress::-webkit-progress-value { background: var(--blue-light); }
+  progress::-moz-progress-bar { background: var(--blue-light); }
+  footer { margin-top: 24px; }
+  button { padding: 11px 15px; border: 1px solid #568bdb4a; background: #568bdb07; color: #ffffff; font: inherit; cursor: pointer; white-space: nowrap; }
+  button:hover { background: #568bdb1a; }
+  @media (max-width: 480px) { header { flex-direction: column; align-items: flex-start; gap: 6px; } footer { font-size: 9px; } }
+</style>

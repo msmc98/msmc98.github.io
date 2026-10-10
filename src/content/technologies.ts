@@ -1,0 +1,30 @@
+// Technologies confirmed by Manuel, his June 2026 CV and the current portfolio.
+export const technologyCategories = [
+  { id: 'languages', icon: 'code', title: { es: 'Lenguajes y estándares', en: 'Languages & standards' }, items: ['Python', 'PHP', 'JavaScript', 'TypeScript', 'Java', 'SQL', 'HTML5', 'CSS3'] },
+  { id: 'python', icon: 'server', title: { es: 'Ecosistema Python', en: 'Python ecosystem' }, items: ['Django', 'Django REST Framework', 'FastAPI', 'Odoo', 'NumPy', 'pandas', 'Seaborn', 'Matplotlib', 'Keras', 'scikit-learn'] },
+  { id: 'php', icon: 'code', title: { es: 'Ecosistema PHP', en: 'PHP ecosystem' }, items: ['Laravel', 'WordPress', 'FacturaScripts'] },
+  { id: 'javascript', icon: 'globe', title: { es: 'Ecosistema JavaScript', en: 'JavaScript ecosystem' }, items: ['React', 'Angular', 'Astro', 'jQuery'] },
+  { id: 'mobile', icon: 'mobile', title: { es: 'Aplicaciones móviles', en: 'Mobile applications' }, items: ['React Native', 'Expo', 'Ionic', 'Angular'] },
+  { id: 'java', icon: 'server', title: { es: 'Ecosistema Java', en: 'Java ecosystem' }, items: ['Java', 'Spring Boot'] },
+  { id: 'apis', icon: 'code', title: { es: 'API y servicios', en: 'APIs & services' }, items: ['REST API', 'Django REST Framework', 'FastAPI'] },
+  { id: 'cms', icon: 'shop', title: { es: 'CMS y ERP', en: 'CMS & ERP' }, items: ['WordPress', 'FacturaScripts', 'Odoo', 'Laravel'] },
+  { id: 'databases', icon: 'building', title: { es: 'Bases de datos SQL', en: 'SQL databases' }, items: ['MySQL', 'PostgreSQL', 'SQL Server', 'Oracle DB', 'SQL'] },
+  { id: 'nosql', icon: 'building', title: { es: 'Bases de datos NoSQL', en: 'NoSQL databases' }, items: ['Cassandra', 'MongoDB', 'Redis', 'NoSQL'] },
+  { id: 'graphs', icon: 'spark', title: { es: 'Grafos e inteligencia artificial', en: 'Graphs & artificial intelligence' }, items: ['Neo4j'] },
+  { id: 'cloud', icon: 'globe', title: { es: 'Nube y contenedores', en: 'Cloud & containers' }, items: ['AWS', 'Azure', 'Docker'] },
+  { id: 'servers', icon: 'server', title: { es: 'Administración de servidores', en: 'Server administration' }, items: ['Linux', 'FTP', 'SSH', 'Plesk', 'cPanel', 'CloudPanel'] },
+  { id: 'delivery', icon: 'plan', title: { es: 'Versionado y despliegue', en: 'Version control & delivery' }, items: ['Git', 'GitHub', 'GitHub Actions', 'CI/CD'] },
+  { id: 'analytics', icon: 'spark', title: { es: 'Análisis y visualización', en: 'Analytics & visualization' }, items: ['Power BI', 'Tableau', 'pandas', 'NumPy', 'Seaborn', 'Matplotlib'] },
+  { id: 'models', icon: 'spark', title: { es: 'Modelos y aprendizaje automático', en: 'Models & machine learning' }, items: ['Python', 'Keras', 'scikit-learn'] },
+  { id: 'office', icon: 'plan', title: { es: 'Ofimática profesional', en: 'Professional office tools' }, items: ['Microsoft Excel', 'Microsoft Word'] },
+  { id: 'ai', icon: 'code', title: { es: 'Desarrollo con IA', en: 'Development with AI' }, items: ['Codex', 'Claude Code'] },
+] as const;
+export const technologyFilters = [
+  { id: 'all', label: { es: 'Todas', en: 'All' }, categories: [] },
+  { id: 'python', label: { es: 'Python', en: 'Python' }, categories: ['python', 'analytics', 'apis', 'models'] },
+  { id: 'php', label: { es: 'PHP', en: 'PHP' }, categories: ['php', 'cms'] },
+  { id: 'javascript', label: { es: 'JavaScript', en: 'JavaScript' }, categories: ['javascript', 'mobile'] },
+  { id: 'data', label: { es: 'Datos', en: 'Data' }, categories: ['databases', 'nosql', 'graphs', 'analytics', 'models'] },
+  { id: 'infrastructure', label: { es: 'Infraestructura', en: 'Infrastructure' }, categories: ['cloud', 'servers', 'delivery'] },
+  { id: 'ai', label: { es: 'IA', en: 'AI' }, categories: ['ai', 'graphs', 'models'] },
+] as const;

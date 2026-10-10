@@ -1,0 +1,151 @@
+{
+  "marvel": {
+    "originalUrl": "https://media.themoviedb.org/t/p/original/7RyHsO4yDXtBv1zUU3mTpHeQ0d5.jpg",
+    "source": "https://www.themoviedb.org/movie/299534-avengers-endgame",
+    "credit": "Marvel Studios / TMDB"
+  },
+  "lotr": {
+    "originalUrl": "https://media.themoviedb.org/t/p/original/z51Wzj94hvAIsWfknifKTqKJRwp.jpg",
+    "source": "https://www.themoviedb.org/movie/120-the-lord-of-the-rings-the-fellowship-of-the-ring",
+    "credit": "New Line Cinema / TMDB"
+  },
+  "got": {
+    "originalUrl": "https://static.tvmaze.com/uploads/images/original_untouched/213/533549.jpg",
+    "source": "https://www.tvmaze.com/shows/82/game-of-thrones",
+    "credit": "HBO / TVmaze"
+  },
+  "mandalorian": {
+    "originalUrl": "https://static.tvmaze.com/uploads/images/original_untouched/245/612595.jpg",
+    "source": "https://www.tvmaze.com/shows/38963/the-mandalorian",
+    "credit": "Lucasfilm / TVmaze"
+  },
+  "london": {
+    "originalUrl": "https://images.unsplash.com/photo-1543832923-44667a44c804?w=2400&q=90&auto=format",
+    "source": "https://unsplash.com/photos/tower-bridge-london-J-wEJwSiAbQ",
+    "credit": "David Monaghan / Unsplash",
+    "version": 3
+  },
+  "paris": {
+    "originalUrl": "https://web-assets.transavia.com/78ae936f-d39d-01b0-c3ef-dc738304142f/f05bbc53-48eb-4c2a-8409-8312887bb908/Paris%20view%20with%20river%20and%20the%20eiffel%20tower.jpg?auto=format&fm=jpg&h=1600&w=2400",
+    "source": "https://www.transavia.com/aeroports/fr-fr/aeroport-de-paris-orly",
+    "credit": "Transavia",
+    "version": 3
+  },
+  "collie": {
+    "originalUrl": "https://images.unsplash.com/photo-1606390026124-a89c154c2570?w=1800&q=90&auto=format",
+    "source": "https://unsplash.com/photos/white-brown-and-black-rough-collie-eQUiSv4CR4o",
+    "credit": "Unsplash"
+  },
+  "rottweiler": {
+    "originalUrl": "https://yumove.co.uk/cdn/shop/files/Rottweiler.jpg",
+    "source": "https://yumove.co.uk/pages/dog-breeds/rottweiler",
+    "credit": "YuMOVE"
+  },
+  "cats": {
+    "originalUrl": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=1800&q=90&auto=format",
+    "source": "https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba",
+    "credit": "Unsplash"
+  },
+  "boxing": {
+    "originalUrl": "https://images.pexels.com/photos/4761592/pexels-photo-4761592.jpeg?auto=compress&cs=tinysrgb&w=1800",
+    "source": "https://www.pexels.com/photo/4761592/",
+    "credit": "Pexels"
+  },
+  "gym": {
+    "originalUrl": "https://images.pexels.com/photos/1954524/pexels-photo-1954524.jpeg?auto=compress&cs=tinysrgb&w=1800",
+    "source": "https://www.pexels.com/photo/1954524/",
+    "credit": "Pexels"
+  },
+  "running": {
+    "originalUrl": "https://images.pexels.com/photos/2526878/pexels-photo-2526878.jpeg?auto=compress&cs=tinysrgb&w=1800",
+    "source": "https://www.pexels.com/photo/2526878/",
+    "credit": "Pexels"
+  },
+  "lol": {
+    "originalUrl": "https://ddragon.leagueoflegends.com/cdn/img/champion/splash/Ahri_0.jpg",
+    "source": "https://www.leagueoflegends.com/en-us/champions/ahri/",
+    "credit": "Riot Games"
+  },
+  "pokemon": {
+    "originalUrl": "https://pokemonletsgo.pokemon.com/assets/img/home/looping-video_2x.jpg",
+    "source": "https://pokemonletsgo.pokemon.com/en-us/",
+    "credit": "The Pokémon Company / Nintendo"
+  },
+  "gta": {
+    "originalUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/271590/ss_32aa18ab3175e3002217862dd5917646d298ab6b.1920x1080.jpg?t=1765387725",
+    "source": "https://store.steampowered.com/app/271590/",
+    "credit": "Rockstar Games / Steam"
+  },
+  "sekiro": {
+    "originalUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/814380/ss_0f7b0f8ed9ffc49aba26f9328caa9a1d59ad60f0.1920x1080.jpg?t=1762888662",
+    "source": "https://store.steampowered.com/app/814380/",
+    "credit": "FromSoftware / Steam"
+  },
+  "elden-ring": {
+    "originalUrl": "https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1245620/ss_943bf6fe62352757d9070c1d33e50b92fe8539f1.1920x1080.jpg?t=1790290043",
+    "source": "https://store.steampowered.com/app/1245620/",
+    "credit": "FromSoftware / Steam"
+  },
+  "kawasaki": {
+    "originalUrl": "https://www.kawasaki.eu/content/dam/products/pim/gallery/Resource_323052_26BR125M_47TGY1ARFA2CG_C.jpg/_jcr_content/renditions/cq5dam.web.1280.1280.png",
+    "source": "https://www.kawasaki.eu/en/Motorcycles/Supernaked/Z125_2027.html",
+    "credit": "Kawasaki"
+  },
+  "attack-on-titan": {
+    "originalUrl": "https://static.tvmaze.com/uploads/images/original_untouched/632/1582290.jpg",
+    "source": "https://www.tvmaze.com/shows/919/attack-on-titan",
+    "credit": "Attack on Titan / TVmaze"
+  },
+  "demon-slayer": {
+    "originalUrl": "https://static.tvmaze.com/uploads/images/original_untouched/456/1140750.jpg",
+    "source": "https://www.tvmaze.com/shows/41469/demon-slayer",
+    "credit": "Demon Slayer / TVmaze"
+  },
+  "naruto": {
+    "originalUrl": "https://static.tvmaze.com/uploads/images/original_untouched/223/557590.jpg",
+    "source": "https://www.tvmaze.com/shows/488/naruto-shippuden",
+    "credit": "Naruto / TVmaze"
+  },
+  "solo-leveling": {
+    "originalUrl": "https://static.tvmaze.com/uploads/images/original_untouched/497/1244908.jpg",
+    "source": "https://www.tvmaze.com/shows/64632/solo-leveling",
+    "credit": "Solo Leveling / TVmaze"
+  },
+  "tokyo": {
+    "originalUrl": "https://www.royalcaribbean.com/media-assets/pmc/content/dam/excalibur/digital-stock/royalty-free/shutterstock/2022/2022-12/stock-photo-temple-gate-in-tokyo-japan-623610230.jpg?w=2400",
+    "source": "https://www.royalcaribbean.com/inspire/japan-in-january",
+    "credit": "Royal Caribbean / Shutterstock",
+    "version": 3
+  },
+  "barcelona": {
+    "originalUrl": "https://www.interrail.eu/content/dam/interrail-bucket-list/spain-barcelona-catalonia-park-guell-sunset.jpg",
+    "source": "https://www.interrail.eu/en/plan-your-trip/trip-ideas/the-ultimate-interrail-bucket-list/spain-bucket-list",
+    "credit": "Interrail / Eurail",
+    "version": 3
+  },
+  "labrador": {
+    "originalUrl": "https://images.unsplash.com/photo-1543702303-71766260f6d3?w=1800&q=90&auto=format",
+    "source": "https://unsplash.com/photos/yellow-labrador-retriever-LcJkpSoA0es",
+    "credit": "Fermin Rodriguez Penelas / Unsplash"
+  },
+  "arde-bogota": {
+    "originalUrl": "https://cdn-p.smehost.net/sites/a8928da38df6414aae98564041b07ae0/wp-content/uploads/2024/04/Arde-Bogota0782-Foto_-Arden-1920x964.jpeg",
+    "source": "https://www.sonymusic.com.mx/artist/arde-bogota/",
+    "credit": "Arden / Sony Music"
+  },
+  "ultraligera": {
+    "originalUrl": "https://static.wixstatic.com/media/5740a2_3754546414dd4611863a61b3f94acff0~mv2.jpeg",
+    "source": "https://www.ultraligera.com/universo",
+    "credit": "Ultraligera"
+  },
+  "hey-kid": {
+    "originalUrl": "https://www.themusicrepublic.es/wp-content/uploads/2023/11/unnamed-20-1-scaled.jpg",
+    "source": "https://www.themusicrepublic.es/hey-kid/",
+    "credit": "The Music Republic / Hey Kid"
+  },
+  "cordoba-cf": {
+    "originalUrl": "https://statics-maker.llt-services.com/cor/images/2026/10/06/original/3fe31ec7-5e5e-4487-a91e-0adc143356e0-294.JPG",
+    "source": "https://www.cordobacf.com/",
+    "credit": "Córdoba CF"
+  }
+}

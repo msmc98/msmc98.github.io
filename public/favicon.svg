@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="brand-core-mark" viewBox="0 0 64 64" fill="none">
+  <circle cx="32" cy="32" r="27" stroke="#7aa8eb" stroke-opacity=".55" stroke-width="1.25"/>
+  <path d="M32 5a27 27 0 0 1 27 27" stroke="#f04a5c" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M22 42V22l10 11 10-11v20" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m17 27-5 5 5 5" stroke="#7aa8eb" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="m47 27 5 5-5 5 M30 46l4-7" stroke="#f04a5c" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

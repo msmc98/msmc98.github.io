@@ -1,0 +1,427 @@
+---
+import BrandMark from "./BrandMark.astro";
+import { content as en } from "../content/en";
+import { content as es } from "../content/es";
+
+interface Props {
+	lang?: "en" | "es";
+}
+
+const { lang = "en" } = Astro.props;
+const content = lang === "es" ? es : en;
+
+const englishUrl = "/";
+const spanishUrl = "/es/";
+---
+
+<aside class="sidebar">
+	<div class="sidebar-inner">
+
+		<!-- Brand -->
+		<a href={lang === "en" ? englishUrl : spanishUrl} class="brand" aria-label={lang === 'es' ? 'Inicio del portfolio' : 'Portfolio home'}>
+			<BrandMark />
+		</a>
+
+		<!-- Navigation -->
+		<nav class="navigation" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
+
+			<a href="#profile" class="nav-item active" aria-current="location">
+				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<circle cx="12" cy="8" r="3.5" />
+					<path d="M5 20C5.8 15.9 8.1 14 12 14C15.9 14 18.2 15.9 19 20" />
+				</svg>
+				<span>{content.navigation.profile}</span>
+			</a>
+
+			<a href="#experience" class="nav-item">
+				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<rect x="4" y="7" width="16" height="12" rx="2" />
+					<path d="M9 7V5H15V7M4 11H20M10 11V13H14V11" />
+				</svg>
+				<span>{content.navigation.experience}</span>
+			</a>
+
+			<a href="#projects" class="nav-item">
+				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<rect x="4" y="4" width="16" height="16" rx="2" />
+					<path d="M8 9H16M8 13H13M8 17H11" />
+				</svg>
+				<span>{content.navigation.projects}</span>
+			</a>
+
+			<a href="#skills" class="nav-item">
+				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<path d="M12 3L14.2 8.8L20 11L14.2 13.2L12 19L9.8 13.2L4 11L9.8 8.8L12 3Z" />
+					<circle cx="18" cy="18" r="2" />
+				</svg>
+				<span>{content.navigation.skills}</span>
+			</a>
+
+			<a href="#hobbies" class="nav-item">
+				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<rect x="3.5" y="5" width="17" height="14" rx="2" />
+					<path d="M4 7L12 13L20 7" />
+				</svg>
+				<span>{lang === 'es' ? 'Aficiones' : 'Interests'}</span>
+			</a>
+
+		</nav>
+
+		<!-- Bottom area -->
+		<div class="sidebar-bottom">
+
+			<div class="language-selector">
+				<span class="language-label">{content.language.label}</span>
+
+				<div class="language-options">
+					<a
+						href={englishUrl}
+						class:list={{ selected: lang === "en" }}
+						aria-current={lang === "en" ? "true" : undefined}
+					>
+						<span>EN</span>
+						<span class="language-indicator"></span>
+					</a>
+
+					<a
+						href={spanishUrl}
+						class:list={{ selected: lang === "es" }}
+						aria-current={lang === "es" ? "true" : undefined}
+					>
+						<span>ES</span>
+						<span class="language-indicator"></span>
+					</a>
+				</div>
+			</div>
+
+			<div class="system-status">
+				<div class="status-line">
+					<span class="status-dot"></span>
+					<span>{content.system.label}</span>
+					<strong>{content.system.status}</strong>
+				</div>
+
+				<span class="location">{content.system.location}</span>
+			</div>
+
+		</div>
+
+	</div>
+</aside>
+
+<script>
+  const navigationLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.navigation .nav-item'));
+  const sections = navigationLinks.map((link) => document.getElementById(link.hash.slice(1))).filter((section): section is HTMLElement => Boolean(section));
+  function updateNavigation() {
+    let current = sections[0];
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= window.innerHeight * 0.4) current = section;
+    }
+    for (const link of navigationLinks) {
+      const active = link.hash === `#${current?.id}`;
+      link.classList.toggle('active', active);
+      if (active) link.setAttribute('aria-current', 'location');
+      else link.removeAttribute('aria-current');
+    }
+  }
+  let scheduled = false;
+  window.addEventListener('scroll', () => {
+    if (scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => { updateNavigation(); scheduled = false; });
+  }, { passive: true });
+  window.addEventListener('resize', updateNavigation);
+  updateNavigation();
+</script>
+
+<style>
+	.sidebar {
+		position: fixed;
+		inset: 0 auto 0 0;
+		width: var(--sidebar-width);
+		background:
+			repeating-linear-gradient(0deg, #ffc5c503 0 1px, transparent 1px 4px),
+			linear-gradient(115deg, transparent 22%, #ffc5c509 34%, transparent 46%),
+			linear-gradient(145deg, #571426 0%, #2e0c17 38%, #66172a 66%, #240a14 100%);
+		color: #ffadad;
+		border-right: 1px solid #e9667640;
+		box-shadow: inset -1px 0 #ffadad12, 12px 0 50px #08152d20;
+		z-index: 100;
+	}
+
+	.sidebar-inner {
+		height: 100%;
+		display: flex;
+		flex-direction: column;
+		padding: 34px 24px 28px;
+	}
+
+	.brand {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		align-self: center;
+		padding: 0 4px;
+	}
+
+
+
+
+
+	.navigation {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+		margin-top: 75px;
+	}
+
+	.nav-item {
+		position: relative;
+		display: flex;
+		align-items: center;
+		gap: 14px;
+		min-height: 48px;
+		padding: 0 13px;
+		color: #ffffffcc;
+		font-size: 12px;
+		letter-spacing: 0.04em;
+		transition: color 180ms ease, background 180ms ease;
+	}
+
+	.nav-item::before {
+		content: "";
+		position: absolute;
+		left: -24px;
+		top: 9px;
+		bottom: 9px;
+		width: 2px;
+		background: #ffadad;
+		box-shadow: 0 0 12px #ff526b50;
+		opacity: 0;
+		transition: opacity 180ms ease;
+	}
+
+	.nav-item svg {
+		width: 18px;
+		height: 18px;
+		stroke: currentColor;
+		stroke-width: 1.4;
+		stroke-linecap: round;
+		stroke-linejoin: round;
+	}
+
+	.nav-item:hover,
+	.nav-item.active {
+		color: #ffffff;
+		background: #ffadad09;
+	}
+
+	.nav-item.active {
+		color: #ffffff;
+		background: linear-gradient(90deg, #ff69751c, #ff697506);
+		box-shadow: inset 0 0 0 1px #ffadad20;
+	}
+
+	.nav-item.active::before {
+		opacity: 1;
+	}
+
+	.sidebar-bottom {
+		margin-top: auto;
+	}
+
+	.language-selector {
+		padding: 20px 0;
+		border-top: 1px solid #e9667630;
+		border-bottom: 1px solid #e9667630;
+	}
+
+	.language-label {
+		display: block;
+		margin-bottom: 13px;
+		color: #ffffffb3;
+		font-size: 9px;
+		font-family: var(--title-font);
+		text-transform: uppercase;
+		letter-spacing: 0.14em;
+	}
+
+	.language-options {
+		display: flex;
+		flex-direction: column;
+		gap: 5px;
+	}
+
+	.language-options a {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		width: 54px;
+		padding: 3px 0;
+		color: #ffffffb3;
+		font-size: 11px;
+		transition: color 180ms ease;
+	}
+
+	.language-options a:hover,
+	.language-options a.selected {
+		color: #ffffff;
+	}
+
+	.language-options a.selected {
+		color: #ffffff;
+	}
+
+	.language-indicator {
+		width: 6px;
+		height: 6px;
+		border: 1px solid currentColor;
+		border-radius: 50%;
+	}
+
+	.language-options a.selected .language-indicator {
+		background: currentColor;
+	}
+
+	.system-status {
+		padding-top: 20px;
+	}
+
+	.status-line {
+		display: flex;
+		align-items: center;
+		gap: 7px;
+		color: #ffffffb3;
+		font-size: 9px;
+		font-family: var(--title-font);
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+	}
+
+	.status-line strong {
+		color: #ffffff;
+		font-weight: 500;
+	}
+
+	.status-dot {
+		width: 5px;
+		height: 5px;
+		border-radius: 50%;
+		background: #ffadad;
+		box-shadow: 0 0 7px rgba(229, 42, 64, 0.55);
+	}
+
+	.location {
+		display: block;
+		margin-top: 8px;
+		color: #ffffffb3;
+		font-size: 9px;
+	}
+
+    @media (max-width: 760px) {
+	.sidebar {
+		position: relative;
+		inset: auto;
+		width: 100%;
+		height: auto;
+
+		border-right: 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+	}
+
+	.sidebar-inner {
+		height: auto;
+		padding: 18px 22px;
+	}
+
+	.brand {
+		padding: 0;
+	}
+
+
+	.navigation {
+		flex-direction: row;
+		gap: 4px;
+
+		margin-top: 22px;
+
+		overflow-x: auto;
+		padding-bottom: 4px;
+
+		scrollbar-width: none;
+	}
+
+	.navigation::-webkit-scrollbar {
+		display: none;
+	}
+
+	.nav-item {
+		flex: 0 0 auto;
+		min-height: 40px;
+		padding: 0 11px;
+		font-size: 10px;
+	}
+
+	.nav-item::before {
+		left: 0;
+		right: 0;
+		top: auto;
+		bottom: 0;
+		width: auto;
+		height: 2px;
+	}
+
+	.sidebar-bottom {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: 20px;
+
+		margin-top: 18px;
+	}
+
+	.language-selector {
+		padding: 12px 0;
+		border-top: 0;
+		border-bottom: 0;
+	}
+
+	.language-label {
+		display: none;
+	}
+
+	.language-options {
+		flex-direction: row;
+		gap: 14px;
+	}
+
+	.system-status {
+		padding-top: 0;
+	}
+
+	.location {
+		display: none;
+	}
+}
+
+@media (max-width: 480px) {
+	.sidebar-inner {
+		padding: 15px 18px;
+	}
+
+
+
+	.navigation {
+		margin-top: 16px;
+	}
+
+	.nav-item {
+		min-height: 36px;
+		font-size: 9px;
+	}
+
+	.system-status {
+		display: none;
+	}
+}
+</style>

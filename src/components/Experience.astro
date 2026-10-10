@@ -1,0 +1,58 @@
+---
+import Icon from './Icon.astro';
+import { experience } from '../data/experience';
+import rawLogos from '../data/employer-logos.json';
+const logos = rawLogos as Record<string, { url: string; src: string; width: number; height: number; plate: string }>;
+interface Props { lang: 'es' | 'en'; }
+const { lang } = Astro.props;
+const es = lang === 'es';
+---
+<section id="experience" class="experience-section">
+  <h2 data-motion>{es ? 'Experiencia que construye' : 'Experience that builds'}</h2>
+  <ol class="timeline">{experience.map((job, index) => <li data-motion={index % 2 ? 'right' : 'left'}>
+    <div class="timeline-node" aria-hidden="true"><Icon name={['code','server','chat','mobile','globe','code'][index]} size={17} /></div>
+    <article class="glass-panel"><div class="job-header"><p class="period">{job.period[lang]}</p><span class="record"><Icon name="briefcase" size={14} /> {es ? 'TRAYECTORIA' : 'CAREER LOG'}</span></div>
+      <a class:list={['employer-logo', { 'dark-plate': logos[job.employer].plate === 'dark' }]} href={logos[job.employer].url} target="_blank" rel="noopener noreferrer" aria-label={`${es ? 'Visitar la web oficial de' : 'Visit the official website of'} ${job.company}`}>
+        <img src={logos[job.employer].src} width={logos[job.employer].width} height={logos[job.employer].height} alt={job.company} loading="lazy" decoding="async" />
+        <span aria-hidden="true">↗</span>
+      </a>
+      <h3><a class="employer-name" href={logos[job.employer].url} target="_blank" rel="noopener noreferrer">{job.company.replace(/\.$/, '')}</a></h3><p class="role">{job.role[lang]}</p>
+      <details><summary>{es ? 'Ver funciones' : 'View responsibilities'}<span aria-hidden="true">+</span></summary><ul class="tasks">{job.tasks[lang].map(task => <li>{task}</li>)}</ul></details>
+    </article>
+  </li>)}</ol>
+</section>
+<script>
+  document.querySelectorAll<HTMLDetailsElement>('#experience details').forEach(details => details.addEventListener('toggle', () => { if (details.open) document.dispatchEvent(new CustomEvent('portfolio:quest', { detail: 'experience' })); }));
+</script>
+<style>
+  .employer-logo { position: relative; display: flex; align-items: center; justify-content: center; width: min(100%, 230px); height: 90px; padding: 15px 28px 15px 18px; margin-top: 22px; border: 1px solid var(--border); border-radius: 6px; background: white; color: #112343; transition: transform .2s, border-color .2s; }
+  .employer-logo.dark-plate { background: #112343; color: white; }
+  .employer-logo img { display: block; width: 100%; height: 100%; object-fit: contain; }
+  .employer-logo span { position: absolute; right: 9px; top: 8px; font-size: 13px; }
+  .employer-logo:hover { transform: translateY(-3px); border-color: var(--blue-light); }
+  .employer-name { color: inherit; text-decoration: none; }
+  .employer-name:hover { color: var(--blue-light); }
+  .employer-logo:focus-visible, .employer-name:focus-visible { outline: 2px solid var(--blue-light); outline-offset: 4px; }
+  details { margin-top: 22px; } summary { display: flex; justify-content: space-between; align-items: center; gap: 10px; padding: 12px 0; border-top: 1px solid var(--border); color: var(--text); font-size: 11px; cursor: pointer; list-style: none; } summary::-webkit-details-marker { display: none; } summary span { color: var(--red-highlight); font-size: 24px; transition: transform .3s; } details[open] summary span { transform: rotate(45deg); }
+  article { position: relative; overflow: hidden; transition: border-color .4s, background .4s; border-radius: 4px; } article::after { content: ''; position: absolute; width: 80px; height: 80px; right: -40px; top: -40px; border: 1px solid var(--border); transform: rotate(45deg); } article:hover { border-color: var(--blue-light); background: #102a4efa; }
+  .timeline > li:first-child .timeline-node { background: var(--red-metal); color: white; border-color: var(--red-highlight); box-shadow: 0 0 24px #c7192e30; }
+  @media(min-width: 1100px) { .timeline { display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; } .timeline > li:nth-child(even) { padding-top: 55px; } .timeline > li:nth-child(even) .timeline-node { top: 55px; } .timeline > li:nth-child(even)::before { top: 91px; } }
+  .experience-section { padding: clamp(80px, 9vw, 130px) clamp(28px, 8vw, 140px); border-top: 1px solid var(--border); background: radial-gradient(ellipse at 100% 15%, #c7192e08, transparent 65%); }
+  h2 { margin: 0; font: 500 clamp(38px, 4.8vw, 70px)/1.08 var(--title-font); letter-spacing: -.04em; text-wrap: balance; }
+  .timeline { list-style: none; margin: 50px 0 0; padding: 0; }
+  .timeline > li { position: relative; padding: 0 0 25px 58px; }
+  .timeline > li::before { content: ''; position: absolute; left: 17px; top: 36px; bottom: 0; width: 1px; background: linear-gradient(var(--blue-light), #568bdb25); }
+  .timeline > li:last-child::before { display: none; }
+  .timeline-node { position: absolute; left: 0; top: 0; display: grid; place-items: center; width: 36px; height: 36px; border: 1px solid #568bdb60; background: var(--background); color: var(--blue-light); font: 10px var(--mono-font); border-radius: 50%; }
+  article { padding: clamp(22px, 3vw, 32px); border: 1px solid var(--border); background: #0b1d3bfa; }
+  .job-header { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .period { margin: 0; color: var(--text); font: 11px/1.7 var(--mono-font); }
+  .record { font: 8px/1.7 var(--mono-font); letter-spacing: .1em; color: var(--text-muted); }
+  h3 { margin: 18px 0 8px; font: 500 clamp(23px, 3vw, 34px)/1.2 var(--title-font); letter-spacing: -.025em; }
+  .role { margin: 0; color: var(--blue-light); font-size: 12px; }
+  .tasks { padding-left: 16px; margin: 22px 0 0; color: var(--text-muted); font-size: 12px; line-height: 1.85; }
+  .tasks li { padding: 4px 0; }
+  .tasks li::marker { color: var(--red-light); }
+  @media (max-width: 480px) { .experience-section { padding: 70px 22px; } .timeline > li { padding-left: 34px; } .timeline-node { width: 24px; height: 24px; font-size: 8px; } .timeline > li::before { left: 11px; top: 24px; } .record { display: none; } article { padding: 20px 17px; } }
+  .record { display: inline-flex; align-items: center; gap: 8px; }
+</style>

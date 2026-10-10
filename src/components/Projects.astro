@@ -1,0 +1,9 @@
+﻿---
+import ProjectGallery from './ProjectGallery.astro';
+interface Props {
+  labels: { eyebrow: string; title: string; description: string; visit: string };
+  lang?: 'es' | 'en';
+}
+const { labels, lang = 'en' } = Astro.props;
+---
+<ProjectGallery labels={labels} lang={lang} />

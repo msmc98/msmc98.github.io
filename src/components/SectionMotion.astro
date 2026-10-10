@@ -1,0 +1,18 @@
+<script>
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)');
+  const items = document.querySelectorAll<HTMLElement>('[data-motion]');
+  if (!reduced.matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => { if (entry.isIntersecting) { entry.target.classList.add('in-view'); observer.unobserve(entry.target); } });
+    }, { threshold: .08 });
+    items.forEach((item) => { item.classList.add('will-reveal'); observer.observe(item); });
+    reduced.addEventListener('change', () => { if (reduced.matches) { items.forEach(item => item.classList.remove('will-reveal')); observer.disconnect(); } });
+  }
+</script>
+<style is:global>
+  [data-motion] { transition: opacity .7s, transform .8s cubic-bezier(.2,.65,.3,1); }
+  [data-motion].will-reveal:not(.in-view) { opacity: 0; transform: translateY(32px); }
+  [data-motion="left"].will-reveal:not(.in-view) { transform: translateX(-24px); }
+  [data-motion="right"].will-reveal:not(.in-view) { transform: translateX(24px); }
+  @media(prefers-reduced-motion: reduce) { [data-motion] { opacity: 1 !important; transform: none !important; } }
+</style>
