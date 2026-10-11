@@ -1,4 +1,4 @@
-# Guía del portfolio
+﻿# Guía del portfolio
 
 Documentación del estado actual del proyecto, actualizada el 10 de octubre de 2026. Explica qué hace cada elemento, cómo está construido y dónde modificarlo.
 
@@ -33,7 +33,7 @@ En un componente `.astro`, el bloque entre `---` prepara los datos durante la ge
 
 ## 2. Orden y navegación
 
-El orden visible se define en `PortfolioPage.astro`: portada → proceso de trabajo → experiencia → proyectos → perfil híbrido y tecnologías → aficiones → invitación de contacto → pie. La bienvenida se superpone al principio y el contacto flota sobre la página.
+El orden visible se define en `PortfolioPage.astro`: portada → proyectos y casos documentados → proceso de trabajo → experiencia → stack profesional, formación y tecnologías → aficiones → contacto → pie. La bienvenida es voluntaria; el contacto flotante se oculta cuando la sección final está visible.
 
 | Apartado | Identificador HTML | Componente |
 | --- | --- | --- |
@@ -44,11 +44,13 @@ El orden visible se define en `PortfolioPage.astro`: portada → proceso de trab
 | Perfil híbrido | `skills` | `Skills.astro` → `TechnologyCatalogue.astro` |
 | Aficiones | `hobbies` | `Hobbies.astro` |
 | Invitación final | `start-project` | `ProjectCTA.astro` |
-| Botones flotantes | `contact` | `FloatingContact.astro` |
+| Botones flotantes | `contact-dock` | `FloatingContact.astro` |
 
 `Sidebar.astro` contiene el menú, selector de idioma y estado visual del sistema. Los enlaces utilizan anclas como `#projects`; un script actualiza la sección activa al desplazarse. En móvil cambia su disposición. El estado «online» es una etiqueta de diseño, no un monitor de disponibilidad del servidor.
 
-`BrandMark.astro` inserta el SVG de `public/images/brand/monogram.svg`: una M, símbolos de código y un círculo. El favicon tiene su propio archivo `public/favicon.svg`; si se modifica la identidad deben actualizarse ambos. El logo no contiene las animaciones del reactor.
+`BrandMark.astro` inserta el SVG de `public/images/brand/monogram.svg`: un hexágono con «mz» en la parte principal y «dev» debajo. Su composición vertical mide 76 px de ancho (68 px hasta 1100 px), con trazos ligeros blancos y azules y un segmento rojo en el contorno. La referencia a arquitectura hexagonal procede de la dirección visual solicitada por Manuel. Las letras son trazos vectoriales sin depender de fuentes. El favicon reutiliza el logo completo «mz / dev» dentro del hexágono en `public/favicon.svg`, con fondo transparente y colores que se adaptan mediante `prefers-color-scheme`: oscuros sobre tema claro y claros sobre tema oscuro.
+
+Las tarjetas usan una celosía de relojes de arena en `src/assets/textures/time-lattice.svg`. El token `--card-texture` y la regla de superficies en `global.css` controlan el fondo repetido sobre el degradado. Es decorativa y estática; Vite integra el SVG en el CSS generado.
 
 ## 3. Bienvenida de JARVIS
 
@@ -56,7 +58,7 @@ El orden visible se define en `PortfolioPage.astro`: portada → proceso de trab
 
 La bienvenida utiliza un `<dialog>` modal a pantalla completa. Muestra el reactor, mensajes por etapas y una barra `<progress>`. Un temporizador actualiza el porcentaje cada 80 ms; llega al 100 % aproximadamente a los 2,6 segundos y cierra la ventana a los 3,1 segundos.
 
-El porcentaje representa una secuencia visual programada: no mide la descarga de imágenes ni espera a que todos los recursos estén cargados. Aparece en cada recarga, se puede saltar con el botón o Escape y se omite cuando el sistema solicita reducir el movimiento. Sin JavaScript no abre el diálogo.
+El porcentaje representa una secuencia visual programada: no mide la descarga de imágenes ni espera a que todos los recursos estén cargados. Se abre automáticamente al entrar, por petición de Manuel, y permite saltar con el botón o Escape. Con movimiento reducido se omite. Sin JavaScript no abre el diálogo.
 
 Para cambiar mensajes, editar `messages` en este componente. Para cambiar duración, revisar el cálculo `elapsed / 26` y el cierre a `3100` conjuntamente.
 
@@ -68,7 +70,7 @@ La portada combina presentación, descripción, descarga del CV, asistente, reac
 
 El reactor no es un vídeo ni una imagen: `ArcReactor.astro` superpone cinco círculos HTML con bordes, degradados y sombras. Su órbita gira durante 24 segundos y los segmentos durante 40 segundos en sentido inverso. La versión `compact` se utiliza en la bienvenida. Su paleta cian y dorada es independiente de la paleta principal.
 
-El botón que envuelve el reactor activa una tarea del protocolo secreto. Para cambiar su aspecto, editar `ArcReactor.astro`; para tamaño, distribución o espacio inferior de la portada, editar `.hero` y `.hero-visual` en `Hero.astro`. La portada tiene actualmente un espacio inferior adaptable de 160 a 220 px y, en escritorio, una altura mínima de `100svh + 80px`.
+El botón que envuelve el reactor activa una tarea del protocolo secreto. Para cambiar su aspecto, editar `ArcReactor.astro`; para tamaño, distribución o espacio inferior de la portada, editar `.hero` y `.hero-visual` en `Hero.astro`. La portada usa una cuadrícula con reactor lateral en escritorio, una composición vertical en móvil y CTAs visibles. El asistente está dentro de un desplegable nativo; la altura mínima de escritorio está limitada a 900 px o una pantalla.
 
 ## 5. Preguntar a JARVIS
 
@@ -153,13 +155,11 @@ El script necesita `sharp`; actualmente no está declarado como dependencia dire
 
 **Archivos:** `ProjectCTA.astro`, `FloatingContact.astro`, `src/content/interface.ts`.
 
-La invitación final es un bloque compacto con avatar circular y bocadillo «Háblame de tu proyecto», traducido al inglés. La fotografía se configura en `contact.profilePhoto` y utiliza el archivo local `public/images/profile/manuel-cutout-v1.png`: la foto facilitada de LinkedIn, editada para eliminar el fondo y mejorar claridad y color. Si la propiedad está vacía, se muestra el monograma del portfolio.
+La sección `#contact` muestra dos recorridos: incorporación a un equipo y proyecto/colaboración. Cada enlace abre un correo con asunto traducido. También se muestran correo legible, WhatsApp y LinkedIn, sin afirmar disponibilidad ni incluir formularios externos.
 
-Un `IntersectionObserver` observa el bocadillo y activa la flecha cuando al menos la mitad aparece en pantalla. La flecha queda junto a los botones flotantes: toma sus coordenadas reales y se mueve de izquierda a derecha con CSS. Un `ResizeObserver` y el evento de cambio de tamaño mantienen la alineación. Al salir del bocadillo se oculta; con movimiento reducido permanece estática cuando corresponde mostrarla.
+El dock `#contact-dock` conserva correo/WhatsApp y se oculta con IntersectionObserver cuando la sección de contacto está visible. En móvil usa iconos con etiquetas accesibles y objetivos de 46 px. La flecha animada de la invitación anterior se eliminó porque dependía de señalar controles flotantes en lugar de ofrecer contacto directo.
 
-Los botones abren el cliente de correo mediante `mailto:` o el chat de WhatsApp mediante `wa.me`. En móvil muestran solo iconos, con etiquetas accesibles. El número no aparece como texto visible, pero forma parte del enlace público de WhatsApp. LinkedIn está en el pie. El formulario de JARVIS no envía correos.
-
-Para cambiar contacto o fotografía, editar el objeto `contact` en `interface.ts`. Para servir una foto local, guardarla por ejemplo en `public/images/profile/manuel.webp` y poner `/images/profile/manuel.webp` en `profilePhoto`.
+Para cambiar los canales, editar `contact` en `src/content/interface.ts`; los textos e intenciones están en `interfaceContent`.
 
 ## 12. Easter egg y pie
 
@@ -195,7 +195,7 @@ Los fondos ambientales se aplican mediante `::before` con opacidad de 0,24. La p
 
 Los idiomas son dos rutas que comparten componentes, no una traducción automática. Los textos generales están en `es.ts`/`en.ts`; otros datos usan objetos `{ es, en }` o expresiones dentro del componente. Para modificar una etiqueta hay que revisar ambas variantes. Los nombres propios y tecnologías se conservan.
 
-La interfaz utiliza enlaces y botones nativos, estados `aria-selected`/`aria-pressed`, zonas `aria-live`, pestañas con teclado, diálogos y enlace para saltar al contenido. `prefers-reduced-motion` omite la bienvenida y reduce múltiples animaciones. Esto no sustituye una auditoría completa de accesibilidad.
+La interfaz utiliza enlaces y botones nativos, estados `aria-selected`/`aria-pressed`, zonas `aria-live`, pestañas con teclado, diálogos y enlace para saltar al contenido. `prefers-reduced-motion` evita animar la bienvenida voluntaria y reduce múltiples animaciones. Esto no sustituye una auditoría completa de accesibilidad.
 
 La adaptación a móvil combina CSS Grid, Flexbox, `clamp()` y media queries. La barra lateral deja de reservar anchura hasta 760 px; otras secciones tienen puntos de corte específicos. Las imágenes mantienen dimensiones declaradas y muchas utilizan `loading="lazy"`.
 
@@ -247,3 +247,10 @@ Las comprobaciones con navegador requieren el servidor activo y Edge o Chrome. R
 Hay archivos de la base anterior que no forman parte de la página actual, como `Header.astro`, `Navigation.astro`, `SystemStatus.astro`, `src/data/projects.ts`, `src/data/skills.ts` y `src/content/projects.ts`. El catálogo activo de la galería es `src/content/project-gallery.ts`. Revisar las importaciones antes de modificar un archivo antiguo para evitar cambios sin efecto visible.
 
 La procedencia de recursos se documenta en [visual-assets.md](visual-assets.md); los fondos en [laboratory-prompts.md](laboratory-prompts.md). Como referencia del framework, consultar la [documentación oficial de componentes Astro](https://docs.astro.build/en/basics/astro-components/) y la [guía de estilos](https://docs.astro.build/en/guides/styling/).
+
+
+## Revisión profesional de octubre de 2026
+
+Consultar `portfolio-improvement-plan.md`, `project-evidence.md` y `portfolio-validation.md` para prioridades, alcance confirmado por Manuel y pruebas ejecutadas. El catálogo conserva los conocimientos existentes; el nuevo stack muestra primero las tecnologías acreditadas en trabajos. `CaseStudies.astro` renderiza los datos editables de `case-studies.ts`. Las capturas turísticas actuales incluyen una advertencia sobre el rediseño ajeno. La captura privada de ARFE no se publica.
+
+

@@ -1,4 +1,5 @@
 ---
+import { publicPath } from '../content/paths';
 interface Props { lang: 'es' | 'en'; }
 const { lang } = Astro.props;
 const es = lang === 'es';
@@ -23,7 +24,7 @@ const tasks = [
   </dialog>
   <dialog class="reward-dialog glass-panel" aria-labelledby="reward-title">
     <button type="button" data-close-reward aria-label={es ? 'Cerrar recompensa' : 'Close reward'}>×</button>
-    <div class="reward-art"><img src="/images/iron-man-reward.webp" width="768" height="768" alt={es ? 'Iron Man con el pulgar levantado celebrando el logro' : 'Iron Man giving a thumbs-up to celebrate the achievement'} loading="lazy" /><span class="reward-ring" aria-hidden="true"></span></div>
+    <div class="reward-art"><img src={publicPath('/images/iron-man-reward.webp')} width="768" height="768" alt={es ? 'Iron Man con el pulgar levantado celebrando el logro' : 'Iron Man giving a thumbs-up to celebrate the achievement'} loading="lazy" /><span class="reward-ring" aria-hidden="true"></span></div>
     <h2 id="reward-title">{es ? 'Bien, conseguido' : 'Nicely done'}</h2><p>{es ? 'Protocolo completado. J.A.R.V.I.S. aprueba tu misión.' : 'Protocol complete. J.A.R.V.I.S. approves your mission.'}</p>
     <a href="https://emojis.sh/emoji/iron-man-with-one-hand-up-d0WAhiRcwv" target="_blank" rel="noopener noreferrer">{es ? 'Crédito de la imagen' : 'Image credit'} ↗</a>
   </dialog>
@@ -54,7 +55,7 @@ const tasks = [
       this.querySelector<HTMLButtonElement>('[data-reward]')!.onclick = () => this.showReward();
       const reward = this.querySelector<HTMLDialogElement>('.reward-dialog');
       this.querySelector<HTMLButtonElement>('[data-close-reward]')!.onclick = () => reward?.close();
-      panel?.querySelectorAll<HTMLAnchorElement>('a').forEach(link => { link.onclick = () => { panel.close(); const target = document.getElementById(link.hash.slice(1)); if (target instanceof HTMLInputElement) { target.scrollIntoView({ block: 'center' }); target.focus({ preventScroll: true }); } }; });
+      panel?.querySelectorAll<HTMLAnchorElement>('a').forEach(link => { link.onclick = () => { panel.close(); const target = document.getElementById(link.hash.slice(1)); if (target instanceof HTMLInputElement) { const disclosure = target.closest('details'); if (disclosure) disclosure.open = true; target.scrollIntoView({ block: 'center' }); target.focus({ preventScroll: true }); } }; });
       document.querySelectorAll<HTMLButtonElement>('[data-activate-core]').forEach(button => { button.onclick = () => { document.dispatchEvent(new CustomEvent('portfolio:quest', { detail: 'reactor' })); button.classList.add('core-activated'); if (this.completed.size !== 5 && panel && !panel.open) panel.show(); this.render(); }; });
       this.render();
     }

@@ -1,11 +1,15 @@
 ---
+import { withAssetBase } from '../content/paths';
 import Icon from './Icon.astro';
 import { galleryProjects } from '../content/project-gallery';
 import rawCaptures from '../data/project-captures.json';
 import ProjectMockup from './ProjectMockup.astro';
+import CaseStudies from './CaseStudies.astro';
+import SectionDisclosure from './SectionDisclosure.astro';
+import { professionalSummary } from '../content/professional-summary';
 interface Capture { src: string; width: number; height: number; }
 interface SiteCapture { desktop?: Capture | null; mobile?: Capture | null; title?: string; }
-const captures = rawCaptures as Record<string, SiteCapture>;
+const captures = withAssetBase(rawCaptures) as Record<string, SiteCapture>;
 interface Props { labels: { eyebrow: string; title: string; description: string; visit: string }; lang?: 'es' | 'en'; }
 const { labels, lang = 'en' } = Astro.props;
 const es = lang === 'es';
@@ -16,20 +20,24 @@ const categories = [
 ];
 const categoryNames: Record<string, string> = { tourism: es ? 'Turismo y experiencias' : 'Tourism & experiences', corporate: es ? 'Web corporativa' : 'Corporate website', commerce: es ? 'Comercio electrónico' : 'E-commerce', apps: es ? 'Desarrollo a medida' : 'Custom development' };
 const websiteCount = galleryProjects.reduce((total, project) => total + project.sites.length, 0);
+const kinds = { professional: es ? 'Profesional' : 'Professional', personal: es ? 'Personal' : 'Personal', academic: es ? 'Académico' : 'Academic', collaborative: es ? 'Colaborativo' : 'Collaborative' };
+const studyLabels = { problem: es ? 'Problema' : 'Problem', solution: es ? 'Solución' : 'Solution', decisions: es ? 'Decisiones técnicas' : 'Technical decisions', challenges: es ? 'Retos' : 'Challenges', result: es ? 'Resultado' : 'Outcome', learnings: es ? 'Aprendizajes' : 'Learnings' };
 ---
 <project-gallery data-lang={lang}>
   <section class="projects-section" id="projects">
     <header class="projects-header">
       <h2>{labels.title}</h2>
-      <div class="header-bottom"><div class="archive-stats"><strong>{websiteCount}</strong><span>{es ? 'WEBS EN MI RECORRIDO' : 'WEBS ALONG MY JOURNEY'}</span></div></div>
+      <div class="header-bottom"><div class="archive-stats"><strong>{professionalSummary.projectCountLabel}</strong><span>{professionalSummary[lang].metric}</span></div><p>{websiteCount} {professionalSummary[lang].selection}</p></div>
     </header>
+    <CaseStudies lang={lang} />
+    <SectionDisclosure label={es ? `Explorar galería · ${websiteCount} webs seleccionadas` : `Explore gallery · ${websiteCount} selected websites`}>
     <div class="archive-controls">
       <div class="filters" role="group" aria-label={es ? 'Filtrar proyectos por sector' : 'Filter projects by sector'}>{categories.map((category) => <button type="button" data-filter={category.id} aria-pressed={category.id === 'all'}>{category.label}</button>)}</div>
       <p class="result-count" role="status" aria-live="polite"><span data-count>{galleryProjects.length}</span> {es ? 'proyectos' : 'projects'}</p>
     </div>
     <div class="projects-grid">
       {galleryProjects.map((project, index) => {
-        const sites = project.sites.map((site) => ({ ...site, detail: site.description?.[lang], highlights: site.highlights?.[lang], desktop: captures[site.slug]?.desktop || null, mobile: captures[site.slug]?.mobile || null }));
+        const sites = project.sites.map((site) => ({ ...site, detail: site.description?.[lang], highlights: site.highlights?.[lang], desktop: project.desktopPreview ? withAssetBase(project.desktopPreview) : captures[site.slug]?.desktop || null, mobile: captures[site.slug]?.mobile || null }));
         const first = sites[0];
         const projectName = project.featured && !es ? 'Four cities. One journey' : project.name;
         return <article class:list={['project', 'glass-panel', { 'project-featured': project.featured }]} data-category={project.category} data-sites={JSON.stringify(sites)} data-reveal style={`--project-accent:${project.accent}`}>
@@ -37,6 +45,12 @@ const websiteCount = galleryProjects.reduce((total, project) => total + project.
           <div class="project-content">
             <div class="project-meta"><span>{categoryNames[project.category]}</span><span class="project-index" aria-hidden="true"><Icon name={project.category === 'tourism' ? 'map' : project.category === 'corporate' ? 'building' : project.category === 'commerce' ? 'shop' : 'code'} /></span></div>
             <h3>{projectName.replace(/\.$/, '')}</h3><p class="description">{project.description[lang]}</p>
+            {project.professionalContext && <p class="project-kind">{kinds[project.professionalContext]}</p>}
+            {project.contribution && <p class="description"><strong>{es ? 'Mi contribución: ' : 'My contribution: '}</strong>{project.contribution[lang]}</p>}
+            {project.previewNote && <p class="preview-note">{project.previewNote[lang]}</p>}
+            {project.id === 'arfe' && <a class="case-link" href="#case-arfe">{es ? 'Leer caso Laravel + MySQL' : 'Read Laravel + MySQL case'} ↗</a>}
+            {project.technologies && <ul>{project.technologies.map(tech => <li>{tech}</li>)}</ul>}
+            {project.caseStudy && <details class="project-case"><summary>{es ? 'Leer caso de estudio' : 'Read case study'}</summary><dl>{(Object.keys(studyLabels) as Array<keyof typeof studyLabels>).map(key => project.caseStudy?.[key] && <><dt>{studyLabels[key]}</dt><dd>{project.caseStudy[key]![lang]}</dd></>)}</dl></details>}
             {sites.length > 1 && <><div class="site-selector" role="group" aria-label={es ? 'Seleccionar web del conjunto' : 'Select a website from the collection'}>{sites.map((site, siteIndex) => <button type="button" data-site={siteIndex} aria-pressed={siteIndex === 0}>{site.name}</button>)}</div><noscript><ul>{sites.map((site) => <li><strong>{site.name}</strong><p>{site.detail}</p><a href={site.url} target="_blank" rel="noopener noreferrer">{site.name} ↗</a></li>)}</ul></noscript></>}
             {sites.length > 1 && <div class="site-detail" aria-live="polite"><h4 data-site-name>{first.name}</h4><p data-site-detail>{first.detail}</p><ul data-site-highlights>{first.highlights?.map(highlight => <li>{highlight}</li>)}</ul></div>}
             <div class="project-bottom"><span class="project-domain">{new URL(first.url).hostname}</span><a class="project-visit" href={first.url} target="_blank" rel="noopener noreferrer" aria-label={`${labels.visit}: ${first.name}`}>{labels.visit}<span aria-hidden="true">↗</span></a></div>
@@ -44,7 +58,8 @@ const websiteCount = galleryProjects.reduce((total, project) => total + project.
         </article>;
       })}
     </div>
-    <div class="archive-footer"><span>{es ? 'FIN DEL ARCHIVO / SIGUE EXPLORANDO' : 'END OF ARCHIVE / CONTINUE EXPLORING'}</span><a href="#contact">{es ? '¿Tu próximo proyecto?' : 'Your next project?'} ↗</a></div>
+    <div class="archive-footer"><a href="#contact">{es ? 'Contactar' : 'Contact'} ↗</a></div>
+    </SectionDisclosure>
   </section>
   <dialog class="preview-dialog glass-panel" aria-labelledby="preview-title">
     <div class="preview-heading"><h3 id="preview-title"></h3><button type="button" data-close>{es ? 'Cerrar' : 'Close'} ×</button></div>
@@ -155,7 +170,7 @@ const websiteCount = galleryProjects.reduce((total, project) => total + project.
 </script>
 <style>
   project-gallery { display: block; }
-  .projects-section { padding: clamp(80px, 9vw, 130px) clamp(22px, 5vw, 80px); border-top: 1px solid var(--border); background: var(--background); }
+  .projects-section {  border-top: 1px solid var(--border); background: var(--background); }
   .eyebrow { display: flex; align-items: center; gap: 10px; margin: 0 0 28px; font: 10px var(--mono-font); text-transform: uppercase; letter-spacing: .14em; color: var(--blue-light); }
   .eyebrow > span { width: 5px; height: 5px; background: var(--blue-light); border-radius: 50%; box-shadow: 0 0 12px #568bdb55; }
   h2 { margin: 0; font: 500 clamp(46px, 5.5vw, 82px)/1.05 var(--title-font); letter-spacing: -.045em; }

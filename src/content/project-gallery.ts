@@ -8,8 +8,17 @@ export interface GalleryProject {
   description: { es: string; en: string };
   sites: ProjectSite[];
   featured?: boolean;
+  // Owner-confirmed case details only. Null/absent fields must never be inferred from a capture.
+  professionalContext?: 'professional' | 'personal' | 'academic' | 'collaborative';
+  contribution?: { es: string; en: string };
+  previewNote?: { es: string; en: string };
+  desktopPreview?: { src: string; width: number; height: number };
+  technologies?: string[];
+  caseStudy?: { problem?: { es: string; en: string }; solution?: { es: string; en: string }; decisions?: { es: string; en: string }; challenges?: { es: string; en: string }; result?: { es: string; en: string }; learnings?: { es: string; en: string } };
 }
 
+// Reviewed anonymized preview: independent of automatic public-site captures.
+export const arfeDashboardPreview = { src: '/projects/arfe-dashboard-anonymized-v1.webp', width: 1740, height: 904 };
 export const galleryProjects: GalleryProject[] = [
   {
     id: 'andalucia', name: 'Cuatro ciudades. Un mismo viaje.', category: 'tourism', accent: '#568bdb', featured: true,
@@ -37,3 +46,22 @@ export const galleryProjects: GalleryProject[] = [
   { id: 'bomtie', name: 'Bomtie', category: 'commerce', accent: '#ed5265', description: { es: 'Una tienda online de textiles y accesorios para bebés. Un proyecto de comercio electrónico con trabajo en gestión de productos y administración de la plataforma.', en: 'An online store for baby textiles and accessories. An e-commerce project involving product management and platform administration.' }, sites: [{ slug: 'bomtie', name: 'Bomtie', url: 'https://bomtie.com' }] },
   { id: 'arfe', name: 'ARFE', category: 'apps', accent: '#568bdb', description: { es: 'Desarrollo web a medida de una aplicación de gestión interna. Un proyecto centrado en herramientas para el trabajo diario de la empresa.', en: 'Custom web development for an internal management application, focused on tools for the company’s day-to-day work.' }, sites: [{ slug: 'arfe', name: 'ARFE', url: 'https://arfe.sieinformatica.net' }] },
 ];
+
+// Authorship confirmed directly by Manuel on 10/10/2026. Do not infer per-site stacks.
+for (const project of galleryProjects) {
+  project.professionalContext = 'professional';
+  project.contribution ??= project.id === 'bde'
+    ? { es: 'Mejoras y optimización de una tienda existente; no desarrollé la versión inicial.', en: 'Improvements and optimization of an existing store; I did not build its initial version.' }
+    : project.id === 'bomtie'
+      ? { es: 'Mantenimiento de la tienda como parte de mi trabajo en empresa; no desarrollé la versión inicial.', en: 'Store maintenance as part of my work at a company; I did not build its initial version.' }
+      : { es: 'Desarrollo desde cero, confirmado por Manuel.', en: 'Development from scratch, confirmed by Manuel.' };
+  if (project.id === 'andalucia') {
+    project.contribution = { es: 'Creación de las webs originales durante mi etapa en TicTac Comunicación. No participé en el rediseño posterior.', en: 'Creation of the original websites during my time at TicTac Comunicación. I did not participate in the later redesign.' };
+    project.previewNote = { es: 'Las capturas muestran las webs actuales y pueden incluir el rediseño posterior. No representan exclusivamente mi trabajo original.', en: 'The screenshots show the current websites and may include the later redesign. They do not exclusively represent my original work.' };
+  }
+  if (project.id === 'arfe') {
+    project.technologies = ['Laravel', 'MySQL'];
+    project.desktopPreview = arfeDashboardPreview;
+    project.previewNote = { es: 'Dashboard anonimizado con nombres y cifras ficticios; DNI y pólizas ocultos. La vista móvil corresponde al acceso público.', en: 'Anonymized dashboard with fictional names and figures; IDs and policy numbers masked. The mobile view shows the public sign-in screen.' };
+  }
+}

@@ -1,21 +1,38 @@
 ---
+import { publicPath } from '../content/paths';
+import { contact } from '../content/interface';
+import { professionalSummary } from '../content/professional-summary';
 interface Props { lang: 'es' | 'en'; }
 const { lang } = Astro.props;
 const es = lang === 'es';
 const commands = [
-  { target: 'projects', label: es ? 'Ver proyectos' : 'View projects', response: es ? 'Abriendo el archivo de proyectos. Aquí puedes explorar el trabajo de Manuel y visitar cada sitio.' : 'Opening the project archive. Explore Manuel’s work and visit each website.' },
+  { target: 'projects', label: es ? 'Ver proyectos' : 'View projects', response: professionalSummary[lang].assistant },
   { target: 'skills', label: es ? 'Consultar habilidades' : 'Explore skills', response: es ? 'Expediente híbrido: desarrollo con Django y Laravel, conocimientos en administración y ciencia de datos. Abriendo módulos de capacidades.' : 'Hybrid profile: Django and Laravel development, administration and Data Science knowledge. Opening capability modules.' },
-  { target: 'experience', label: es ? 'Ver experiencia' : 'View experience', response: es ? 'Abriendo la trayectoria profesional: seis puestos desde 2022, con funciones en desarrollo web y móvil, ERP y administración de servidores.' : 'Opening the career timeline: six roles since 2022, covering web and mobile development, ERP systems and server administration.' },
-  { target: 'contact', label: es ? 'Contactar' : 'Get in touch', response: es ? 'Usa los botones flotantes de correo y WhatsApp. También encontrarás LinkedIn al pie de la página.' : 'Use the floating email and WhatsApp buttons. You can also find LinkedIn at the bottom of the page.' },
+  { target: 'experience', label: es ? 'Ver experiencia' : 'View experience', response: es ? 'Seis puestos en empresas desde 2022 y experiencia freelance en proyectos a medida con Django y despliegues en PythonAnywhere.' : 'Six company roles since 2022 and freelance experience building custom Django projects and deploying on PythonAnywhere.' },
+  { target: 'contact', label: es ? 'Contactar' : 'Get in touch', response: es ? 'Usa Email, WhatsApp, LinkedIn o Instagram en la sección de contacto para entrevistas, proyectos o colaboraciones.' : 'Use Email, WhatsApp, LinkedIn or Instagram in the contact section for interviews, projects or collaborations.' },
 ];
 const answers = es ? {
-  skills: 'Manuel trabaja principalmente con Django y Laravel. Este portfolio está construido con Astro. Su perfil combina desarrollo web, conocimientos en administración y ciencia de datos.',
+  leadership: 'Manuel dirige actualmente el departamento de desarrollo y lidera equipos internos y becarios. Puede aportar como Team Lead, además de sus funciones de desarrollo Full Stack y backend.',
+  languages: `${professionalSummary.es.language.label}. ${professionalSummary.es.language.description}`,
+  scope: professionalSummary.es.assistant,
+  django: 'En TicTac Comunicación (abril–octubre de 2023), Manuel creó una API con Django REST Framework para Córdoba Embrujada. En AdGency Pixel, el CV también acredita desarrollo de servidor con Django.',
+  backend: 'Manuel desarrolló ARFE desde cero con Laravel y MySQL: una aplicación de gestión interna de seguros en producción. También creó una API Django REST Framework para Córdoba Embrujada y funcionalidades de un ERP Laravel en Soluciones Informáticas MJ.',
+  erp: 'ARFE es una aplicación empresarial de seguros desarrollada íntegramente por Manuel con Laravel y MySQL. En Soluciones Informáticas MJ desarrolló funcionalidades, módulos y formularios para un ERP Laravel; en WhiteKong creó y mantuvo módulos de Odoo.',
+  cv: 'El CV está disponible en PDF con el enlace «Descargar CV» de esta guía y de la portada. Fuente profesional: CV facilitado en junio de 2026.',
+  skills: 'Ha trabajado con Django, Django REST Framework, Laravel, MySQL, WordPress, React, React Native, Angular, Ionic y servidores Linux. Su experiencia varía según la tecnología; destaca su adaptación, integración rápida en equipos y aprendizaje continuo. El stack se distingue de la formación y otros conocimientos.',
   admin: 'Su perfil híbrido conecta el desarrollo técnico con conocimientos en administración, requisitos del cliente y gestión de productos digitales.',
   data: 'Manuel tiene conocimientos en ciencia de datos y una perspectiva que conecta los datos con las necesidades del negocio.',
   profile: 'Manuel S. Muñoz Cobos es desarrollador web integral, ubicado en Córdoba, España. Combina desarrollo, administración y conocimientos en ciencia de datos.',
   fallback: 'Puedo ayudarte con el perfil de Manuel, sus tecnologías, proyectos o contacto. Prueba con «¿Qué tecnologías utiliza?» o elige uno de los accesos rápidos.',
 } : {
-  skills: 'Manuel mainly works with Django and Laravel. This portfolio is built with Astro. His profile combines web development, administration and Data Science knowledge.',
+  leadership: 'Manuel currently heads the development department and leads in-house teams and interns. He can contribute as a Team Lead alongside his Full Stack and backend development work.',
+  languages: `${professionalSummary.en.language.label}. ${professionalSummary.en.language.description}`,
+  scope: professionalSummary.en.assistant,
+  django: 'At TicTac Comunicación (April–October 2023), Manuel developed a Django REST Framework API for Córdoba Embrujada. His AdGency Pixel role also documents Django backend development.',
+  backend: 'Manuel built ARFE from scratch with Laravel and MySQL: an insurance management application in production. He also developed a Django REST Framework API for Córdoba Embrujada and Laravel ERP features at Soluciones Informáticas MJ.',
+  erp: 'ARFE is a business application for insurance, built entirely by Manuel with Laravel and MySQL. At Soluciones Informáticas MJ he developed Laravel ERP features, modules and forms; at WhiteKong he developed and maintained Odoo modules.',
+  cv: 'The CV is available as a PDF through the “Download CV” link in this guide and in the hero. Professional source: the CV supplied in June 2026.',
+  skills: 'He has worked with Django, Django REST Framework, Laravel, MySQL, WordPress, React, React Native, Angular, Ionic and Linux servers. His experience varies by technology; his strengths include adaptability, quick team integration and continuous learning. Professional stack is distinguished from education and other knowledge.',
   admin: 'His hybrid profile connects technical development with administration knowledge, client requirements and digital product management.',
   data: 'Manuel has Data Science knowledge and a perspective that connects data with business needs.',
   profile: 'Manuel S. Muñoz Cobos is a Full Stack Web Developer based in Córdoba, Spain. His profile combines development, administration and Data Science knowledge.',
@@ -26,6 +43,9 @@ const answers = es ? {
   <div class="assistant-heading"><span class="dot"></span><strong>J.A.R.V.I.S.</strong><span class="mode">{es ? 'ASISTENTE DEL PORTFOLIO' : 'PORTFOLIO ASSISTANT'}</span></div>
   <p role="status" aria-live="polite">{es ? 'Bienvenido. Soy tu guía por el portfolio de Manuel. ¿Qué quieres conocer?' : 'Welcome. I’m your guide to Manuel’s portfolio. What would you like to explore?'}</p>
   <div class="commands">{commands.map((command) => <a href={`#${command.target}`} data-response={command.response}>{command.label}<span aria-hidden="true"> ↗</span></a>)}</div>
+  <small class="local-notice">{es ? 'Guía local con respuestas del portfolio y el CV. Tus preguntas no se envían a ningún servicio.' : 'Local guide using the portfolio and CV. Your questions are not sent to any service.'}</small>
+  <div class="suggestions">{['django', 'backend', 'erp', 'cv'].map(key => <button type="button" data-answer={key}>{key === 'django' ? 'Django' : key === 'backend' ? 'Backend' : key === 'erp' ? 'ERP' : 'CV'}</button>)}</div>
+  <a class="assistant-cv" href={publicPath('/documents/CV-Manuel-Munoz-Cobos.pdf')} download>{es ? 'Descargar CV' : 'Download CV'} · PDF ↓</a>
   <form>
     <label for="jarvis-question">{es ? 'Pregunta sobre mi perfil' : 'Ask about my profile'}</label>
     <div class="input-row"><input id="jarvis-question" name="question" type="text" maxlength="300" required autocomplete="off" placeholder={es ? '¿Qué tecnologías utiliza Manuel?' : 'What technologies does Manuel use?'} /><button type="submit">{es ? 'Enviar' : 'Send'} <span aria-hidden="true">↗</span></button></div>
@@ -36,6 +56,7 @@ const answers = es ? {
     connectedCallback() {
       const answers: Record<string, string> = JSON.parse(this.dataset.answers || '{}');
       const status = this.querySelector('[role="status"]');
+      this.querySelectorAll<HTMLButtonElement>('[data-answer]').forEach(button => { button.onclick = () => { if (status) status.textContent = answers[button.dataset.answer || ''] || answers.fallback; document.dispatchEvent(new CustomEvent('portfolio:quest', { detail: 'assistant' })); }; });
       this.querySelectorAll<HTMLAnchorElement>('[data-response]').forEach((link) => {
         link.onclick = () => {
           const status = this.querySelector('[role="status"]');
@@ -48,7 +69,14 @@ const answers = es ? {
         event.preventDefault();
         const question = input.value.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         if (!question || !status) return;
-        const answer = /django|laravel|astro|tecnolog|technolog|habilidad|skills|stack/.test(question) ? answers.skills
+        const answer = /\bcv\b|curricul|resume|download|descargar/.test(question) ? answers.cv
+          : /ingles|english|idioma|language|\bb2\b|internacional|international/.test(question) ? answers.languages
+          : /team.lead|lider|leadership|departamento|department/.test(question) ? answers.leadership
+          : /django/.test(question) ? answers.django
+          : /arfe|erp|empresarial|enterprise|odoo|business application/.test(question) ? answers.erp
+          : /backend|back.end|servidor|server|laravel/.test(question) ? answers.backend
+          : /cuantos|how many|end.to.end|movil|mobile|dashboard|e.commerce/.test(question) ? answers.scope
+          : /astro|tecnolog|technolog|habilidad|skills|stack/.test(question) ? answers.skills
           : /administra|negocio|business|gestion/.test(question) ? answers.admin
           : /data|datos|ciencia|science/.test(question) ? answers.data
           : /experiencia|experience|career|trayectoria|empleo/.test(question) ? this.querySelector<HTMLAnchorElement>('[href="#experience"]')?.dataset.response
@@ -65,13 +93,15 @@ const answers = es ? {
   if (!customElements.get('jarvis-assistant')) customElements.define('jarvis-assistant', JarvisAssistant);
 </script>
 <style>
-  jarvis-assistant { display: block; margin-top: 38px; max-width: 620px; padding: 22px; border: 1px solid #7aa8eb50; border-radius: var(--radius-panel); background: #0b1d3bfa; box-shadow: inset 0 1px 0 #ffffff16, 0 18px 45px #08152d60; }
+  .local-notice { display: block; margin-block: 16px; color: var(--text-muted); font-size: 11px; line-height: 1.7; }
+  .suggestions { display: flex; flex-wrap: wrap; gap: 8px; margin-block: 12px; } .assistant-cv { display: inline-flex; align-items: center; min-height: 44px; }
+  jarvis-assistant { display: block; margin-top: 16px; max-width: 620px; padding: 22px; border: 1px solid #7aa8eb50; border-radius: var(--radius-panel); background: #0b1d3bfa; box-shadow: inset 0 1px 0 #ffffff16, 0 18px 45px #08152d60; }
   .assistant-heading { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; font-family: var(--mono-font); font-size: 11px; color: var(--blue-light); letter-spacing: .1em; }
   .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--blue-light); box-shadow: 0 0 12px #568bdb80; }
   .mode { margin-left: auto; font-size: 9px; color: var(--text-muted); }
   p { color: var(--text-muted); font-size: 12px; line-height: 1.9; min-height: 3.8em; margin: 18px 0; }
   .commands { display: flex; flex-wrap: wrap; gap: 8px; }
-  a { padding: 10px 12px; border: 1px solid var(--border); font-size: 10px; color: var(--text); transition: background 180ms; }
+  a { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 14px; border: 1px solid var(--border); font-size: 12px; line-height: 1.5; color: var(--text); transition: background 180ms; }
   a:hover { background: #568bdb12; border-color: var(--blue-light); }
   a span { color: var(--blue-light); }
   form { margin-top: 22px; padding-top: 18px; border-top: 1px solid var(--border); }
@@ -79,7 +109,7 @@ const answers = es ? {
   .input-row { display: flex; gap: 8px; }
   input { min-width: 0; width: 100%; padding: 11px; border: 1px solid var(--border); border-radius: 0; background: var(--background); color: var(--text); font-size: 11px; }
   input::placeholder { color: var(--text-muted); }
-  button { padding: 11px 12px; background: #568bdb10; border: 1px solid var(--border); color: var(--blue-light); cursor: pointer; font-size: 10px; white-space: nowrap; }
+  button { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 44px; padding: 10px 14px; background: #568bdb10; border: 1px solid var(--border); color: var(--blue-light); cursor: pointer; font-size: 12px; line-height: 1.5; white-space: nowrap; }
   button:hover { border-color: var(--blue-light); }
   @media (max-width: 480px) { jarvis-assistant { padding: 18px; } .mode { width: 100%; margin: 0; } }
 </style>

@@ -1,3 +1,4 @@
+import { professionalSummary } from './professional-summary';
 export const content = {
 	navigation: {
 		profile: "Profile",
@@ -10,8 +11,13 @@ export const content = {
 	hero: {
 		status: "System online",
 		role: "Full Stack Web Developer",
-		description:
-			"I design and develop digital products, turning client needs into functional and scalable web experiences.",
+		value: "Applications, APIs and websites built around real needs.",
+		contact: "Let’s talk",
+		projects: "Explore projects",
+		experience: "View experience",
+		assistant: "Explore with J.A.R.V.I.S.",
+		intro: "Play intro",
+		description: professionalSummary.en.description,
 		cvDownload: "Download CV",
 	},
 

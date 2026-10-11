@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="144" height="144" viewBox="0 0 144 144" fill="none">
+  <defs>
+    <path id="hourglass" d="M0 0h80L19 105h42L43 75l7-12 30 53H0L61 11H19l18 32-7 12Z"/>
+  </defs>
+  <g stroke="#0a2344" stroke-opacity=".26" stroke-width="1.6" stroke-linejoin="miter">
+    <use href="#hourglass" transform="translate(6 2) scale(.6)"/>
+    <use href="#hourglass" transform="translate(142 13) rotate(90) scale(.6)"/>
+    <use href="#hourglass" transform="translate(70 85) rotate(90) scale(.6)"/>
+    <use href="#hourglass" transform="translate(82 74) scale(.6)"/>
+  </g>
+  <path d="m54 2 18.4 11M54 71.6 70 85M82 74l-9.6-13M130 74l12-13" stroke="#0a2344" stroke-opacity=".18" stroke-width=".8"/>
+</svg>

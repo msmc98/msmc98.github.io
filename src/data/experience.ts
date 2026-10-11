@@ -6,7 +6,7 @@ export interface Experience {
   tasks: { es: string[]; en: string[] };
 }
 
-// Experiencia transcrita del CV facilitado por Manuel (21/06/2026).
+// Puestos del CV (21/06/2026) y experiencia freelance confirmada por Manuel (11/10/2026).
 export const experience: Experience[] = [
   {
     company: 'AdGency Pixel',
@@ -14,8 +14,8 @@ export const experience: Experience[] = [
     period: { es: 'Sept. 2024 — actualidad', en: 'Sept. 2024 — present' },
     role: { es: 'Desarrollador web integral', en: 'Full Stack Web Developer' },
     tasks: {
-      es: ['Desarrollo con WordPress, plugins a medida y despliegue y migración de sitios web.', 'Desarrollo integral y de servidor con Laravel y Django; interfaces con React y React Native.', 'Administración de servidores Linux con Plesk y cPanel, y gestión de bases de datos MySQL.', 'Creación de scripts a medida integrados con IA mediante Python.', 'Contacto con clientes, toma de requisitos, asistencia y explicación de casos de uso.'],
-      en: ['WordPress development, custom plugins, website deployment and migration.', 'Full Stack and Back-End development with Laravel and Django; Front-End with React and React Native.', 'Linux server administration with Plesk and cPanel, and MySQL database management.', 'Custom Python scripts integrated with AI.', 'Client communication, requirements gathering, support and explanation of use cases.'],
+      es: ['Responsable del departamento de desarrollo: liderazgo de equipos internos y becarios.', 'Desarrollo con WordPress, plugins a medida y despliegue y migración de sitios web.', 'Desarrollo integral y de servidor con Laravel y Django; interfaces con React y React Native.', 'Administración de servidores Linux con Plesk y cPanel, y gestión de bases de datos MySQL.', 'Creación de scripts a medida integrados con IA mediante Python.', 'Contacto con clientes, toma de requisitos, asistencia y explicación de casos de uso.'],
+      en: ['Heading the development department: leading in-house teams and interns.', 'WordPress development, custom plugins, website deployment and migration.', 'Full Stack and Back-End development with Laravel and Django; Front-End with React and React Native.', 'Linux server administration with Plesk and cPanel, and MySQL database management.', 'Custom Python scripts integrated with AI.', 'Client communication, requirements gathering, support and explanation of use cases.'],
     },
   },
   {
@@ -66,6 +66,16 @@ export const experience: Experience[] = [
     tasks: {
       es: ['Desarrollo de aplicaciones móviles con React Native y Expo.', 'Desarrollo web con Laravel y MySQL.', 'Integración de funcionalidades, pruebas y corrección de incidencias.', 'Apoyo en despliegue y mantenimiento técnico del proyecto.'],
       en: ['Mobile application development with React Native and Expo.', 'Web development with Laravel and MySQL.', 'Feature integration, testing and bug fixes.', 'Project deployment and technical maintenance support.'],
+    },
+  },
+  {
+    company: 'Freelance',
+    employer: 'freelance',
+    period: { es: '2022 — actualidad', en: '2022 — present' },
+    role: { es: 'Desarrollador de proyectos a medida', en: 'Custom Application Developer' },
+    tasks: {
+      es: ['Desarrollo de proyectos a medida, principalmente con Django.', 'Despliegue de aplicaciones en PythonAnywhere.'],
+      en: ['Custom project development, primarily with Django.', 'Application deployment on PythonAnywhere.'],
     },
   },
 ];

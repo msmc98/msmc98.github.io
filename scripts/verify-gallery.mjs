@@ -15,6 +15,7 @@ try {
     await page.send('Page.navigate', { url: `http://localhost:4321${path}` });
     await waitFor("!!document.querySelector('project-gallery') && !!customElements.get('project-gallery')");
     await waitFor("!!customElements.get('jarvis-boot')");
+    await evaluate("document.querySelector('#projects .section-disclosure').open=true; true");
     await evaluate("if (document.querySelector('jarvis-boot dialog').open) document.querySelector('jarvis-boot button').click(); true");
   };
   await page.send('Emulation.setDeviceMetricsOverride', { width: 1440, height: 1000, deviceScaleFactor: 1, mobile: false });
@@ -41,8 +42,8 @@ try {
   const requestedDomains = ['cordobapie.es','granadatours.com.es','sevillapie.es','malagapie.es','butterflyengineers.com','lanvert.es','tapizadosmape.es','sieinformatica.com','longrock.es','adgencypixel.com','bdebarefoot.com','secretsofcordoba.com','comprasinformatica.com','venoor.es'];
   const domains = await evaluate("Array.from(document.querySelectorAll('.project')).flatMap(card => JSON.parse(card.dataset.sites).map(site => new URL(site.url).hostname))");
   for (const domain of [...requestedDomains, 'bomtie.com', 'arfe.sieinformatica.net']) assert(domains.includes(domain), `Missing project: ${domain}`);
-  assert.equal(await evaluate("document.querySelector('#contact .email').getAttribute('href')"), 'mailto:manu998mc@gmail.com');
-  assert.equal(await evaluate("document.querySelector('#contact .whatsapp').getAttribute('href')"), 'https://wa.me/34626846294');
+  assert.equal(await evaluate("document.querySelector('#contact-dock .email').getAttribute('href')"), 'mailto:manu998mc@gmail.com');
+  assert.equal(await evaluate("document.querySelector('#contact-dock .whatsapp').getAttribute('href')"), 'https://wa.me/34626846294');
   await evaluate("window.scrollTo({top:document.querySelector('#projects').offsetTop,behavior:'instant'}); true");
   await delay(1200);
   await waitFor("document.querySelector('.project-featured [data-device=desktop]').naturalWidth > 0");

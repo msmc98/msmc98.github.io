@@ -1,3 +1,4 @@
+import { professionalSummary } from './professional-summary';
 export const content = {
 	navigation: {
 		profile: "Perfil",
@@ -9,9 +10,14 @@ export const content = {
 
 	hero: {
 		status: "Sistema online",
-		role: "Desarrollador web integral",
-		description:
-			"Diseño y desarrollo productos digitales, transformando las necesidades del cliente en experiencias web funcionales y escalables.",
+		role: "Desarrollador web Full Stack",
+		value: "Aplicaciones, APIs y webs que responden a necesidades reales.",
+		contact: "Hablemos",
+		projects: "Explorar proyectos",
+		experience: "Ver experiencia",
+		assistant: "Explorar con J.A.R.V.I.S.",
+		intro: "Reproducir intro",
+		description: professionalSummary.es.description,
 		cvDownload: "Descargar CV",
 	},
 
