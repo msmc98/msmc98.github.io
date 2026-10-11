@@ -1,5 +1,7 @@
 ---
+import { publicPath } from '../content/paths';
 import BrandMark from "./BrandMark.astro";
+import LanguageFlag from './LanguageFlag.astro';
 import { content as en } from "../content/en";
 import { content as es } from "../content/es";
 
@@ -10,15 +12,15 @@ interface Props {
 const { lang = "en" } = Astro.props;
 const content = lang === "es" ? es : en;
 
-const englishUrl = "/";
-const spanishUrl = "/es/";
+const englishUrl = publicPath("/");
+const spanishUrl = publicPath("/es/");
 ---
 
 <aside class="sidebar">
 	<div class="sidebar-inner">
 
 		<!-- Brand -->
-		<a href={lang === "en" ? englishUrl : spanishUrl} class="brand" aria-label={lang === 'es' ? 'Inicio del portfolio' : 'Portfolio home'}>
+		<a href={lang === "en" ? englishUrl : spanishUrl} class="brand" aria-label={lang === 'es' ? 'mzdev · Inicio del portfolio' : 'mzdev · Portfolio home'}>
 			<BrandMark />
 		</a>
 
@@ -65,6 +67,7 @@ const spanishUrl = "/es/";
 				<span>{lang === 'es' ? 'Aficiones' : 'Interests'}</span>
 			</a>
 
+		<a href="#contact" class="nav-item"><span aria-hidden="true">↗</span><span>{content.navigation.contact}</span></a>
 		</nav>
 
 		<!-- Bottom area -->
@@ -75,20 +78,20 @@ const spanishUrl = "/es/";
 
 				<div class="language-options">
 					<a
-						href={englishUrl}
+						href={englishUrl} hreflang="en" lang="en" aria-label="English" data-language-link
 						class:list={{ selected: lang === "en" }}
 						aria-current={lang === "en" ? "true" : undefined}
 					>
-						<span>EN</span>
+						<LanguageFlag lang="en" /><span class="language-code">EN</span>
 						<span class="language-indicator"></span>
 					</a>
 
 					<a
-						href={spanishUrl}
+						href={spanishUrl} hreflang="es" lang="es" aria-label="Español" data-language-link
 						class:list={{ selected: lang === "es" }}
 						aria-current={lang === "es" ? "true" : undefined}
 					>
-						<span>ES</span>
+						<LanguageFlag lang="es" /><span class="language-code">ES</span>
 						<span class="language-indicator"></span>
 					</a>
 				</div>
@@ -111,7 +114,7 @@ const spanishUrl = "/es/";
 
 <script>
   const navigationLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.navigation .nav-item'));
-  const sections = navigationLinks.map((link) => document.getElementById(link.hash.slice(1))).filter((section): section is HTMLElement => Boolean(section));
+  const sections = navigationLinks.map((link) => document.getElementById(link.hash.slice(1))).filter((section): section is HTMLElement => Boolean(section)).sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
   function updateNavigation() {
     let current = sections[0];
     for (const section of sections) {
@@ -136,6 +139,9 @@ const spanishUrl = "/es/";
 
 <style>
 	.sidebar {
+		--nav-inline: 13px;
+		--nav-icon: 18px;
+		--nav-gap: 14px;
 		position: fixed;
 		inset: 0 auto 0 0;
 		width: var(--sidebar-width);
@@ -147,13 +153,14 @@ const spanishUrl = "/es/";
 		border-right: 1px solid #e9667640;
 		box-shadow: inset -1px 0 #ffadad12, 12px 0 50px #08152d20;
 		z-index: 100;
+		overflow-y: auto;
 	}
 
 	.sidebar-inner {
 		height: 100%;
 		display: flex;
 		flex-direction: column;
-		padding: 34px 24px 28px;
+		padding: 32px 24px;
 	}
 
 	.brand {
@@ -172,16 +179,18 @@ const spanishUrl = "/es/";
 		display: flex;
 		flex-direction: column;
 		gap: 5px;
-		margin-top: 75px;
+		margin-block: auto;
+		padding-block: 24px;
+		flex-shrink: 0;
 	}
 
 	.nav-item {
 		position: relative;
 		display: flex;
 		align-items: center;
-		gap: 14px;
+		gap: var(--nav-gap);
 		min-height: 48px;
-		padding: 0 13px;
+		padding: 0 var(--nav-inline);
 		color: #ffffffcc;
 		font-size: 12px;
 		letter-spacing: 0.04em;
@@ -209,6 +218,7 @@ const spanishUrl = "/es/";
 		stroke-linecap: round;
 		stroke-linejoin: round;
 	}
+	.nav-item > :first-child { width: var(--nav-icon); flex: 0 0 var(--nav-icon); }
 
 	.nav-item:hover,
 	.nav-item.active {
@@ -227,17 +237,19 @@ const spanishUrl = "/es/";
 	}
 
 	.sidebar-bottom {
-		margin-top: auto;
+		flex-shrink: 0;
 	}
 
 	.language-selector {
 		padding: 20px 0;
+		padding-inline: var(--nav-inline);
 		border-top: 1px solid #e9667630;
 		border-bottom: 1px solid #e9667630;
 	}
 
 	.language-label {
 		display: block;
+		margin-inline-start: calc(var(--nav-icon) + var(--nav-gap));
 		margin-bottom: 13px;
 		color: #ffffffb3;
 		font-size: 9px;
@@ -253,10 +265,12 @@ const spanishUrl = "/es/";
 	}
 
 	.language-options a {
-		display: flex;
+		display: grid;
+		grid-template-columns: var(--nav-icon) 1fr 6px;
+		gap: var(--nav-gap);
 		align-items: center;
 		justify-content: space-between;
-		width: 54px;
+		width: 100%;
 		padding: 3px 0;
 		color: #ffffffb3;
 		font-size: 11px;
@@ -285,12 +299,14 @@ const spanishUrl = "/es/";
 
 	.system-status {
 		padding-top: 20px;
+		padding-inline: var(--nav-inline);
 	}
 
 	.status-line {
-		display: flex;
+		display: grid;
+		grid-template-columns: var(--nav-icon) auto 1fr;
 		align-items: center;
-		gap: 7px;
+		gap: var(--nav-gap);
 		color: #ffffffb3;
 		font-size: 9px;
 		font-family: var(--title-font);
@@ -304,6 +320,7 @@ const spanishUrl = "/es/";
 	}
 
 	.status-dot {
+		justify-self: center;
 		width: 5px;
 		height: 5px;
 		border-radius: 50%;
@@ -313,6 +330,7 @@ const spanishUrl = "/es/";
 
 	.location {
 		display: block;
+		margin-inline-start: calc(var(--nav-icon) + var(--nav-gap));
 		margin-top: 8px;
 		color: #ffffffb3;
 		font-size: 9px;
@@ -320,6 +338,7 @@ const spanishUrl = "/es/";
 
     @media (max-width: 760px) {
 	.sidebar {
+		--nav-icon: 16px;
 		position: relative;
 		inset: auto;
 		width: 100%;

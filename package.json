@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
+    "test": "node scripts/verify-gallery.mjs && node scripts/verify-details.mjs && node scripts/verify-interactions.mjs && node scripts/verify-professional.mjs && node scripts/verify-spacing.mjs",
     "astro": "astro"
   },
   "dependencies": {

@@ -6,7 +6,7 @@ const { lang } = Astro.props;
 const es = lang === 'es';
 ---
 <technology-catalogue>
-  <div class="catalogue-heading"><h3>{es ? 'Tecnologías y herramientas' : 'Technologies & tools'}</h3><Icon name="code" size={26} /></div>
+  <div class="catalogue-heading"><h3>{es ? 'Conocimientos y herramientas' : 'Knowledge & tools'}</h3><Icon name="code" size={26} /></div>
   <div class="technology-filters" role="group" aria-label={es ? 'Filtrar tecnologías' : 'Filter technologies'}>{technologyFilters.map(filter => <button type="button" data-tech-filter={filter.id} data-categories={JSON.stringify(filter.categories)} aria-pressed={filter.id === 'all'}>{filter.label[lang]}</button>)}</div>
   <div class="technology-grid">{technologyCategories.map(category => <article class="technology-category glass-panel" data-tech-category={category.id}><div class="category-heading"><Icon name={category.icon} size={22} /><h4>{category.title[lang]}</h4></div><ul>{category.items.map(item => <li>{item}</li>)}</ul></article>)}</div>
   <div class="practice-grid">

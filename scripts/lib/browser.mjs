@@ -14,8 +14,10 @@ export async function connect(url) {
   });
   let sequence = 0;
   const pending = new Map();
+  const listeners = new Map();
   socket.onmessage = ({ data }) => {
     const message = JSON.parse(data);
+    if (message.method) { for (const listener of listeners.get(message.method) || []) listener(message.params); return; }
     const task = pending.get(message.id);
     if (!task) return;
     clearTimeout(task.timeout);
@@ -34,6 +36,19 @@ export async function connect(url) {
   });
   return {
     send,
+    onEvent(method, listener) {
+      const list = listeners.get(method) || new Set(); listeners.set(method, list); list.add(listener);
+      return () => list.delete(listener);
+    },
+    waitForEvent(method, timeoutMs = 25000) {
+      return new Promise((resolve, reject) => {
+        const list = listeners.get(method) || new Set();
+        listeners.set(method, list);
+        const listener = (params) => { clearTimeout(timeout); list.delete(listener); resolve(params); };
+        const timeout = setTimeout(() => { list.delete(listener); reject(new Error(`${method} timed out`)); }, timeoutMs);
+        list.add(listener);
+      });
+    },
     close: () => socket.close(),
     evaluate: async (expression) => {
       const result = await send('Runtime.evaluate', { expression, returnByValue: true, awaitPromise: true });
@@ -67,7 +82,13 @@ export async function launchBrowser(port = 9338) {
       const page = await connect(target.webSocketDebuggerUrl);
       await page.send('Page.enable');
       await page.send('Runtime.enable');
-      return { ...page, dispose: async () => { page.close(); await browser.send('Target.closeTarget', { targetId }); } };
+      return { ...page, send: async (method, params = {}) => {
+        if (method !== 'Page.navigate') return page.send(method, params);
+        const loaded = page.waitForEvent('Page.domContentEventFired');
+        const result = await page.send(method, params);
+        await loaded;
+        return result;
+      }, dispose: async () => { page.close(); await browser.send('Target.closeTarget', { targetId }); } };
     },
     async close() { try { await browser.send('Browser.close', {}, 3000); } catch {} browser.close(); processHandle.kill(); },
   };

@@ -30,7 +30,7 @@ const messages = es
       const message = this.querySelector('[role="status"]');
       const button = this.querySelector('button');
       if (!dialog || !progress || !percent || !message || !button) return;
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches || !dialog.showModal) return;
+      if (!dialog.showModal) return;
       const messages: string[] = JSON.parse(this.dataset.messages || '[]');
       const finish = () => {
         clearInterval(this.timer);
@@ -38,8 +38,11 @@ const messages = es
       };
       button.onclick = finish;
       dialog.oncancel = (event) => { event.preventDefault(); finish(); };
+      const play = () => {
+      if (dialog.open || matchMedia('(prefers-reduced-motion: reduce)').matches) return;
       const start = performance.now();
       let lastStage = 0;
+      message.textContent = messages[0]; progress.value = 0; percent.textContent = '0%';
       dialog.showModal();
       this.timer = window.setInterval(() => {
         const elapsed = performance.now() - start;
@@ -50,6 +53,8 @@ const messages = es
         if (stage !== lastStage) { message.textContent = messages[stage]; lastStage = stage; }
         if (elapsed >= 3100) finish();
       }, 80);
+      };
+      play();
     }
     disconnectedCallback() { clearInterval(this.timer); }
   }

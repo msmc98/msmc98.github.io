@@ -1,7 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" class="brand-core-mark" viewBox="0 0 64 64" fill="none">
-  <circle cx="32" cy="32" r="27" stroke="#7aa8eb" stroke-opacity=".55" stroke-width="1.25"/>
-  <path d="M32 5a27 27 0 0 1 27 27" stroke="#f04a5c" stroke-width="1.5" stroke-linecap="round"/>
-  <path d="M22 42V22l10 11 10-11v20" stroke="#ffffff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="m17 27-5 5 5 5" stroke="#7aa8eb" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
-  <path d="m47 27 5 5-5 5 M30 46l4-7" stroke="#f04a5c" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 88" fill="none">
+  <title>mz dev</title>
+  <path d="M40 4 74 24v40L40 84 6 64V24Z" stroke="#7aa8eb" stroke-width="1.5"/>
+  <path d="M74 64 40 84" stroke="#f04a5c" stroke-width="1.5"/>
+  <g stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M21 46V31m0 5c0-7 10-7 10 0v10m0-10c0-7 10-7 10 0v10" stroke="#ffffff"/>
+    <path d="M48 31h12L48 46h12" stroke="#7aa8eb"/>
+  </g>
+  <g stroke="#ffffff" stroke-opacity=".8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M31 54v10m0-4c0-5-7-5-7 0s7 5 7 0M37 60h7c0-5-7-5-7 0 0 4 5 5 7 2m5-5 3.5 7 3.5-7"/>
+  </g>
 </svg>

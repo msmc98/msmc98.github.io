@@ -1,11 +1,13 @@
 ---
+import { withAssetBase } from '../content/paths';
 import Icon from './Icon.astro';
+import SectionDisclosure from './SectionDisclosure.astro';
 import CategoryArtwork from './CategoryArtwork.astro';
 import { hobbies } from '../content/hobbies';
 import rawImages from '../data/hobby-images.json';
 interface Props { lang: 'es' | 'en'; }
 interface HobbyImage { src: string; width: number; height: number; source: string; credit: string; }
-const images = rawImages as Record<string, HobbyImage>;
+const images = withAssetBase(rawImages) as Record<string, HobbyImage>;
 const { lang } = Astro.props;
 const es = lang === 'es';
 const first = hobbies.find(group => group.id === 'travel')!.items[0];
@@ -15,6 +17,7 @@ const categoryIcons: Record<string,string> = { cinema:'film', anime:'spark', tra
 <hobby-gallery data-lang={lang}>
   <section id="hobbies">
     <h2 data-motion>{es ? 'Fuera del código' : 'Beyond the code'}</h2>
+    <SectionDisclosure label={es ? 'Conocer mi lado personal' : 'Discover my personal side'}>
     <div class="hobby-explorer">
     <div class="hobby-filters" role="group" aria-label={es ? 'Explorar mis aficiones' : 'Explore my interests'}>
       {hobbies.map(group => <button type="button" class="category-tile" data-hobby-filter={group.id} aria-pressed={group.id === 'travel'}><CategoryArtwork category={group.id} /><span class="category-text"><small><Icon name={categoryIcons[group.id]} size={22} /></small><strong>{group.title[lang]}</strong></span><span class="category-count">{group.items.length}</span><span class="category-arrow" aria-hidden="true">↗</span></button>)}
@@ -38,10 +41,11 @@ const categoryIcons: Record<string,string> = { cinema:'film', anime:'spark', tra
         </article>; })}
       </div>
     </div>)}
+    </SectionDisclosure>
   </section>
   <dialog class="hobby-dialog glass-panel" aria-labelledby="hobby-preview-title">
     <div class="dialog-heading"><h3 id="hobby-preview-title"></h3><button type="button" data-close-hobby aria-label={es ? 'Cerrar imagen' : 'Close image'}>×</button></div>
-    <img class="hobby-preview" alt="" /><a class="hobby-source" href="#" target="_blank" rel="noopener noreferrer">{es ? 'Ver fuente original' : 'View original source'} ↗</a>
+    <img class="hobby-preview" alt="" /><a class="hobby-source" href={firstImage.source} target="_blank" rel="noopener noreferrer">{es ? 'Ver fuente original' : 'View original source'} ↗</a>
   </dialog>
 </hobby-gallery>
 <script>
@@ -127,7 +131,7 @@ const categoryIcons: Record<string,string> = { cinema:'film', anime:'spark', tra
   if (!customElements.get('hobby-gallery')) customElements.define('hobby-gallery', HobbyGallery);
 </script>
 <style>
-  hobby-gallery { display: block; } section { padding: clamp(80px, 9vw, 130px) clamp(22px, 5vw, 80px); border-top: 1px solid var(--border); background: var(--background); }
+  hobby-gallery { display: block; } section {  border-top: 1px solid var(--border); background: var(--background); }
   h2 { font: 500 clamp(38px, 4.8vw, 70px)/1.08 var(--title-font); letter-spacing: -.04em; margin: 0; }
   .hobby-filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 30px 0; }
   .hobby-filters button { border-radius: var(--radius-panel); padding: 10px 14px; border: 1px solid var(--border); background: transparent; color: var(--text-muted); font-size: 11px; cursor: pointer; }
@@ -171,7 +175,7 @@ const categoryIcons: Record<string,string> = { cinema:'film', anime:'spark', tra
   .hobby-preview { height: auto; max-height: 65svh; object-fit: contain; background: var(--background-light); }
   .hobby-source { display: inline-block; font-size: 10px; color: var(--blue-light); margin-top: 18px; }
 
-  @media(max-width: 480px) { section { padding: 70px 22px; } .hobby-grid { gap: 12px; } .hobby-content { flex-direction: column; gap: 4px; padding: 12px; } h4 { font-size: 14px; } .hobby-filters { gap: 6px; } .hobby-filters button { font-size: 10px; padding: 9px 10px; } .motorcycle .hobby-image-button { aspect-ratio: 4 / 3; } }
+  @media(max-width: 480px) {  .hobby-grid { gap: 12px; } .hobby-content { flex-direction: column; gap: 4px; padding: 12px; } h4 { font-size: 14px; } .hobby-filters { gap: 6px; } .hobby-filters button { font-size: 10px; padding: 9px 10px; } .motorcycle .hobby-image-button { aspect-ratio: 4 / 3; } }
 
   .hobby-explorer { display: grid; grid-template-columns: 230px minmax(0,1fr); gap: 22px; margin: 42px 0 35px; }
   .hobby-filters { display: flex; flex-direction: column; flex-wrap: nowrap; gap: 9px; margin: 0; overflow: visible; }

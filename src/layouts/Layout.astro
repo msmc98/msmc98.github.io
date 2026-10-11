@@ -1,5 +1,8 @@
 ---
 import "../styles/global.css";
+import { publicPath } from "../content/paths";
+import { contact } from '../content/interface';
+import { siteOrigin } from '../content/site';
 
 interface Props {
 	title?: string;
@@ -12,6 +15,10 @@ const {
 	description = "Portfolio de Manuel S. Muñoz Cobos, desarrollador web Full Stack.",
 	lang = 'en',
 } = Astro.props;
+const path = publicPath(lang === 'es' ? '/es/' : '/');
+const canonical = siteOrigin ? new URL(path, siteOrigin).href : undefined;
+const preview = siteOrigin ? new URL(publicPath('/images/brand/social-card.png'), siteOrigin).href : undefined;
+const person = { '@context': 'https://schema.org', '@type': 'Person', name: 'Manuel S. Muñoz Cobos', jobTitle: lang === 'es' ? 'Desarrollador web Full Stack' : 'Full Stack Web Developer', ...(canonical ? { url: canonical } : {}), sameAs: [contact.linkedin, contact.instagram, ...(contact.github ? [contact.github] : [])] };
 ---
 
 <!doctype html>
@@ -25,8 +32,17 @@ const {
 		/>
 
 		<meta name="description" content={description} />
+    {canonical && <><link rel="canonical" href={canonical} /><link rel="alternate" hreflang="en" href={`${siteOrigin}${publicPath("/")}`} /><link rel="alternate" hreflang="es" href={`${siteOrigin}${publicPath("/es/")}`} /><link rel="alternate" hreflang="x-default" href={`${siteOrigin}${publicPath("/")}`} /></>}
+    <meta property="og:type" content="website" /><meta property="og:title" content={title} /><meta property="og:description" content={description} /><meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_GB'} /><meta property="og:locale:alternate" content={lang === 'es' ? 'en_GB' : 'es_ES'} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    {preview && <><meta property="og:image" content={preview} /><meta property="og:image:width" content="1200" /><meta property="og:image:height" content="630" /><meta property="og:image:alt" content={title} /></>}
+    <meta name="twitter:card" content={preview ? "summary_large_image" : "summary"} />{preview && <meta name="twitter:image" content={preview} />}<meta name="twitter:title" content={title} /><meta name="twitter:description" content={description} />
+    <script type="application/ld+json" set:html={JSON.stringify(person).replace(/</g, '\\u003c')} />
+    <meta name="theme-color" content="#08152d" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Exo+2:wght@500&family=Montserrat:wght@400;500;600&display=swap" rel="stylesheet" />
 
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=3" />
+		<link rel="icon" type="image/svg+xml" href={publicPath("/favicon.svg?v=8")} />
 
 		<title>{title}</title>
 	</head>

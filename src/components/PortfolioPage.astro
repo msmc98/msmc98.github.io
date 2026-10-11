@@ -14,7 +14,7 @@ import EasterEgg from './EasterEgg.astro';
 import SectionMotion from './SectionMotion.astro';
 import { content as en } from '../content/en';
 import { content as es } from '../content/es';
-import { interfaceContent, contact } from '../content/interface';
+import { interfaceContent } from '../content/interface';
 interface Props { lang: 'en' | 'es'; }
 const { lang } = Astro.props;
 const content = lang === 'es' ? es : en;
@@ -25,21 +25,22 @@ const ui = interfaceContent[lang];
   <Sidebar lang={lang} />
   <main id="main-content" tabindex="-1">
     <Hero lang={lang} />
+    <Projects labels={content.projects} lang={lang} />
     <Profile content={content.profile} lang={lang} />
     <Experience lang={lang} />
-    <Projects labels={content.projects} lang={lang} />
     <Skills lang={lang} />
     <Hobbies lang={lang} />
     <ProjectCTA lang={lang} />
-    <footer><span>© {new Date().getFullYear()} · {ui.contact.footer}</span><div class="footer-actions"><a href={contact.linkedin} target="_blank" rel="noopener noreferrer">LinkedIn ↗</a><EasterEgg lang={lang} /></div></footer>
+    <footer><span>© {new Date().getFullYear()}</span><div class="footer-actions"><span>{ui.contact.footer}</span><EasterEgg lang={lang} /></div></footer>
   </main>
   <FloatingContact lang={lang} />
   <SectionMotion />
 </Layout>
 <style>
   main { width: calc(100% - var(--sidebar-width)); margin-left: var(--sidebar-width); min-height: 100vh; }
-  footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; padding: 32px clamp(28px, 6vw, 100px) 110px; border-top: 1px solid var(--border); font: 10px/1.8 var(--mono-font); color: var(--text-muted); }
-  .footer-actions { display: flex; align-items: center; gap: 20px; } a:hover { color: white; }
+  footer { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 20px; border-top: 1px solid var(--border); font: 10px/1.8 var(--mono-font); color: var(--text-muted); }
+  .footer-actions { display: flex; align-items: center; gap: 16px; min-width: 0; } .footer-actions > span { text-align: right; }
+  @media (max-width: 760px) { footer { gap: 12px; } .footer-actions > span { text-align: left; } }
   @media (max-width: 1100px) { :global(:root) { --sidebar-width: 230px; } }
   @media (max-width: 760px) { :global(:root) { --sidebar-width: 0px; } main { width: 100%; margin-left: 0; } }
 </style>
