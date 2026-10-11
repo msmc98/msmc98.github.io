@@ -84,19 +84,19 @@ Los paneles comparten la clase `glass-panel`: cristal oscuro con desenfoque de 1
 
 Las pruebas completas se ejecutan con `npm test`, con el servidor de desarrollo activo en modo background y Edge o Chrome instalado. La verificación adicional es `node scripts/verify-professional.mjs`.
 
-El workflow `.github/workflows/pages.yml` está preparado para publicación **manual** desde Actions. Para el repositorio facilitado, la URL prevista es `https://msmc98.github.io/portfolio/`. Seleccionar **GitHub Actions** en Settings → Pages y ejecutar el workflow cuando se quiera publicar. Esta revisión no ha realizado push ni desplegado la web.
+El workflow `.github/workflows/pages.yml` está preparado para publicación **manual** en `https://msmc98.github.io/`, con base `/`. El repositorio de GitHub debe llamarse `msmc98.github.io`. Seleccionar **GitHub Actions** en Settings → Pages y ejecutar **Publish portfolio to GitHub Pages** sobre `master`, una vez incorporada la rama de mejora. Cambiar la base por sí solo no cambia la dirección de un repositorio llamado `portfolio`.
 
 Para construir localmente la misma configuración en PowerShell:
 
 ```powershell
 $env:PUBLIC_SITE_URL = 'https://msmc98.github.io'
-$env:PUBLIC_BASE_PATH = '/portfolio'
+$env:PUBLIC_BASE_PATH = '/'
 npm.cmd run build
 ```
 
 También se pueden configurar estas variables con archivos de entorno; `.env.example` muestra los valores. Sin dominio configurado se omiten las URLs absolutas de SEO y el sitemap queda vacío. El build Pages genera canonical/hreflang por idioma, Open Graph, Twitter, Person JSON-LD, sitemap y robots, además de una imagen social PNG de 1200×630.
 
-En un sitio de proyecto bajo `/portfolio/`, el archivo robots generado queda en ese subdirectorio. Para controlar el rastreo del host hay que servir robots en la raíz del dominio; Google [no utiliza robots.txt de subdirectorios](https://developers.google.com/crawling/docs/robots-txt/robots-txt-spec). Puede enviarse el sitemap de este portfolio a Search Console después del despliegue. El workflow sigue la [guía de Astro para GitHub Pages](https://docs.astro.build/en/guides/deploy/github/).
+En el sitio raíz, `robots.txt` y `sitemap.xml` se publican directamente en `https://msmc98.github.io/`. Puede enviarse el sitemap a Search Console después del despliegue. El workflow sigue la [guía de Astro para GitHub Pages](https://docs.astro.build/en/guides/deploy/github/).
 
 ## Documentación completa
 

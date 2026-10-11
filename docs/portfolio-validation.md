@@ -137,3 +137,11 @@ Todos los `summary` del contenido principal comparten un botón ajustado al text
 La trama de relojes mantiene su geometría y color; su opacidad baja de .85 a .26 y las conexiones de .60 a .18, reduciendo aproximadamente un 70 % su intensidad. No cambia el espaciado de las tarjetas ni se añaden filtros de desenfoque o animaciones.
 
 Build final y las cinco pruebas de `npm.cmd test` pasan con salida 0, incluyendo interacción, teclado, recursos, ambos idiomas y responsive. Las previsualizaciones del favicon son comprobaciones locales adicionales, no pruebas de la barra de pestañas de todos los navegadores.
+
+## Preparación para el sitio raíz de GitHub Pages (11/10/2026)
+
+Se cambia `PUBLIC_BASE_PATH` a `/` en el workflow y `.env.example`, manteniendo `PUBLIC_SITE_URL=https://msmc98.github.io`. README explica el requisito del repositorio `msmc98.github.io` y la publicación manual desde Actions. Astro ya consume ambas variables; no requiere cambios de arquitectura.
+
+Se ejecuta el build con esas variables de producción y salida 0. Una comprobación local de `dist/` confirma canonical/hreflang raíz en ES/EN, sitemap, robots y existencia de los recursos locales enlazados, sin URLs de producción bajo `/portfolio/`.
+
+Estado externo: no se ha renombrado el repositorio, realizado push o merge, activado Pages ni ejecutado el workflow. No están disponibles GitHub CLI ni herramientas de GitHub en esta sesión, y la consulta no interactiva de la autenticación de Git y las variables habituales de GitHub no encuentra credenciales. Los cambios locales quedan preparados para su revisión y publicación desde una sesión autenticada.
