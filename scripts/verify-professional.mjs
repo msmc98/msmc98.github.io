@@ -32,10 +32,11 @@ try {
     assert(await page.evaluate("Array.from(document.querySelectorAll('img')).every(img=>img.hasAttribute('alt'))"));
     assert(await page.evaluate("!!document.querySelector('meta[property=\"og:title\"]') && !!document.querySelector('meta[name=\"twitter:card\"]')"));
     assert.equal(await page.evaluate("JSON.parse(document.querySelector('script[type=\"application/ld+json\"]').textContent)['@type']"), 'Person');
-    if (base.includes('/portfolio/')) {
+    {
+      const production = new URL(new URL(base).pathname, 'https://msmc98.github.io');
       const canonical = await page.evaluate("document.querySelector('link[rel=canonical]').href");
-      assert.equal(canonical, `https://msmc98.github.io/portfolio/${lang === 'es' ? 'es/' : ''}`);
-      assert.equal(await page.evaluate("document.querySelector('meta[property=\"og:image\"]').content"), 'https://msmc98.github.io/portfolio/images/brand/social-card.png');
+      assert.equal(canonical, new URL(lang === 'es' ? 'es/' : './', production).href);
+      assert.equal(await page.evaluate("document.querySelector('meta[property=\"og:image\"]').content"), new URL('images/brand/social-card.png', production).href);
     }
     assert.equal(await page.evaluate("document.querySelectorAll('.contact-intentions a[href^=\"mailto:\"]').length"), 2);
     await page.evaluate("document.querySelector('.assistant-disclosure').open=true; true");
@@ -75,8 +76,8 @@ try {
   await page.send('Emulation.setDeviceMetricsOverride', { width: 1200, height: 630, deviceScaleFactor: 1, mobile: false });
   await page.send('Page.navigate', { url: new URL('images/brand/social-card.svg', base).href });
   const social = await page.send('Page.captureScreenshot', { format: 'png' });
-  await writeFile('public/images/brand/social-card.png', Buffer.from(social.data, 'base64'));
+  await writeFile('.astro/social-card-preview.png', Buffer.from(social.data, 'base64'));
   await writeFile('.astro/professional-validation.json', JSON.stringify({ base, languages: ['es', 'en'], widths: [320,390,760,1440,1920], runtimeErrors: errors, jobs: 6, projectGroups: 13, websites: 16, hobbies: 29 }, null, 2));
   await page.dispose();
-  console.log('PASS: professional hero, 2 contact intentions, 3 documented cases, 6 stack groups, local assistant, all local resources/anchors, unique IDs, metadata, ES/EN, 5 widths, no runtime errors. Social PNG exported.');
+  console.log('PASS: professional hero, 2 contact intentions, 3 documented cases, 6 stack groups, local assistant, all local resources/anchors, unique IDs, metadata, ES/EN, 5 widths, no runtime errors. Social preview saved in .astro.');
 } finally { await browser.close(); }

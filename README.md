@@ -5,12 +5,14 @@ Portfolio bilingüe construido con Astro, con una interfaz inspirada en Iron Man
 ## Desarrollo
 
 ```sh
-npm install
+npm ci
 npm run dev -- --background
 npm run astro -- dev status
 npm run astro -- dev logs
 npm run astro -- dev stop
 npm run build
+npm run verify:build
+npm run preview
 ```
 
 - Inglés: http://localhost:4321/
@@ -84,19 +86,32 @@ Los paneles comparten la clase `glass-panel`: cristal oscuro con desenfoque de 1
 
 Las pruebas completas se ejecutan con `npm test`, con el servidor de desarrollo activo en modo background y Edge o Chrome instalado. La verificación adicional es `node scripts/verify-professional.mjs`.
 
-El workflow `.github/workflows/pages.yml` está preparado para publicación **manual** en `https://msmc98.github.io/`, con base `/`. El repositorio de GitHub debe llamarse `msmc98.github.io`. Seleccionar **GitHub Actions** en Settings → Pages y ejecutar **Publish portfolio to GitHub Pages** sobre `master`, una vez incorporada la rama de mejora. Cambiar la base por sí solo no cambia la dirección de un repositorio llamado `portfolio`.
+### Despliegue automático
 
-Para construir localmente la misma configuración en PowerShell:
+El destino es [msmc98/msmc98.github.io](https://github.com/msmc98/msmc98.github.io) y la URL pública es **https://msmc98.github.io/**. Astro configura `site` con ese dominio, `base: '/'` y salida estática. No se necesitan variables de entorno ni secretos. Se requiere Node.js 22.12 o superior; CI utiliza Node.js 24 y npm con el `package-lock.json` versionado.
 
-```powershell
-$env:PUBLIC_SITE_URL = 'https://msmc98.github.io'
-$env:PUBLIC_BASE_PATH = '/'
-npm.cmd run build
+1. Incorporar estos cambios, incluido `.github/workflows/deploy.yml`, a la rama **master** del repositorio de destino. La rama principal comprobada en GitHub es `master`; la rama de trabajo local es `mejora-portfolio-profesional`.
+2. En el repositorio de destino, abrir **Settings → Pages → Build and deployment → Source → GitHub Actions**.
+3. Cada push a `master` ejecuta el workflow **Deploy portfolio to GitHub Pages**. También puede ejecutarse desde **Actions → Deploy portfolio to GitHub Pages → Run workflow**.
+
+El workflow usa `withastro/action@v6` para instalar con npm, compilar, ejecutar `npm run verify:build` y subir el artefacto; `actions/deploy-pages@v5` lo publica en el entorno `github-pages`. Los despliegues se serializan y solo se conceden `contents: read`, `pages: write` e `id-token: write`. La comprobación estática bloquea el despliegue si faltan recursos, fallan las rutas o los metadatos, o aparecen referencias a localhost.
+
+**Remoto local:** durante la auditoría, `origin` apuntaba a `https://github.com/msmc98/portfolio.git`. Publicar allí no actualiza el sitio de usuario. Para conservar ese remoto y añadir el destino, si todavía no existe un remoto llamado `pages`:
+
+```sh
+git remote add pages https://github.com/msmc98/msmc98.github.io.git
+git fetch pages
 ```
 
-También se pueden configurar estas variables con archivos de entorno; `.env.example` muestra los valores. Sin dominio configurado se omiten las URLs absolutas de SEO y el sitemap queda vacío. El build Pages genera canonical/hreflang por idioma, Open Graph, Twitter, Person JSON-LD, sitemap y robots, además de una imagen social PNG de 1200×630.
+Revisar e integrar los cambios con la rama `master` del destino antes de subirlos, sin forzar el push ni sobrescribir su historial.
 
-En el sitio raíz, `robots.txt` y `sitemap.xml` se publican directamente en `https://msmc98.github.io/`. Puede enviarse el sitemap a Search Console después del despliegue. El workflow sigue la [guía de Astro para GitHub Pages](https://docs.astro.build/en/guides/deploy/github/).
+### Verificar la publicación
+
+En **Actions**, comprobar que los jobs `build` y `deploy` terminan en verde y abrir el enlace del entorno `github-pages`. Visitar https://msmc98.github.io/ y https://msmc98.github.io/es/ directamente y recargar ambas rutas. Revisar el cambio de idioma, imágenes, fuentes, CV, contacto, filtros, visor, asistente y animaciones; comprobar en las herramientas del navegador que no aparecen errores JavaScript ni respuestas 404.
+
+El build genera canonical/hreflang por idioma, Open Graph, Twitter, Person JSON-LD, sitemap y robots; utiliza la imagen social PNG existente de 1200×630. Revisar también https://msmc98.github.io/robots.txt y https://msmc98.github.io/sitemap.xml. Puede enviarse el sitemap a Search Console después del despliegue. El workflow sigue la [guía oficial de Astro para GitHub Pages](https://docs.astro.build/en/guides/deploy/github/).
+
+Para verificar interacciones sobre la compilación, ejecutar `npm run preview -- --port 4321` y, en otra terminal, `npm test`. Las pruebas utilizan Edge o Chrome instalado y guardan las capturas en `.astro/`; no modifican la imagen social publicada.
 
 ## Documentación completa
 
