@@ -89,14 +89,13 @@ const spanishUrl = publicPath("/es/");
 			<div class="language-selector">
 				<span class="language-label">{content.language.label}</span>
 
-				<div class="language-options">
+				<div class="language-options" data-language={lang} role="group" aria-label={content.language.label}>
 					<a
 						href={englishUrl} hreflang="en" lang="en" aria-label="English" data-language-link
 						class:list={{ selected: lang === "en" }}
 						aria-current={lang === "en" ? "true" : undefined}
 					>
 						<LanguageFlag lang="en" /><span class="language-code">EN</span>
-						<span class="language-indicator"></span>
 					</a>
 
 					<a
@@ -105,7 +104,6 @@ const spanishUrl = publicPath("/es/");
 						aria-current={lang === "es" ? "true" : undefined}
 					>
 						<LanguageFlag lang="es" /><span class="language-code">ES</span>
-						<span class="language-indicator"></span>
 					</a>
 				</div>
 			</div>
@@ -285,14 +283,13 @@ const spanishUrl = publicPath("/es/");
 
 	.language-selector {
 		padding: 20px 0;
-		padding-inline: var(--nav-inline);
 		border-top: 1px solid #e9667630;
 		border-bottom: 1px solid #e9667630;
 	}
 
 	.language-label {
 		display: block;
-		margin-inline-start: calc(var(--nav-icon) + var(--nav-gap));
+		margin-inline-start: calc(var(--nav-inline) + var(--nav-icon) + var(--nav-gap));
 		margin-bottom: 13px;
 		color: #ffffffb3;
 		font-size: 9px;
@@ -302,21 +299,43 @@ const spanishUrl = publicPath("/es/");
 	}
 
 	.language-options {
-		display: flex;
-		flex-direction: column;
-		gap: 5px;
+		position: relative;
+		isolation: isolate;
+		display: grid;
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+		width: 100%;
+		padding: 4px;
+		border: 1px solid #ffadad30;
+		border-radius: 6px;
+		background: #240a1455;
+		box-shadow: inset 0 1px 4px #00000020;
 	}
 
+	.language-options::before {
+		content: '';
+		position: absolute;
+		z-index: -1;
+		inset: 4px auto 4px 4px;
+		width: calc((100% - 8px) / 2);
+		border-radius: 3px;
+		background: linear-gradient(110deg, #ff697530, #ffadad16);
+		box-shadow: inset 0 0 0 1px #ffadad45, 0 1px 4px #00000020;
+		transition: transform 180ms ease;
+	}
+	.language-options[data-language="es"]::before { transform: translateX(100%); }
+
 	.language-options a {
-		display: grid;
-		grid-template-columns: var(--nav-icon) 1fr 6px;
-		gap: var(--nav-gap);
+		display: flex;
+		gap: 8px;
 		align-items: center;
-		justify-content: space-between;
+		justify-content: center;
 		width: 100%;
-		padding: 3px 0;
+		min-height: 44px;
+		padding: 0 8px;
+		border-radius: 3px;
 		color: #ffffffb3;
 		font-size: 11px;
+		letter-spacing: .04em;
 		transition: color 180ms ease;
 	}
 
@@ -325,19 +344,9 @@ const spanishUrl = publicPath("/es/");
 		color: #ffffff;
 	}
 
-	.language-options a.selected {
-		color: #ffffff;
-	}
-
-	.language-indicator {
-		width: 6px;
-		height: 6px;
-		border: 1px solid currentColor;
-		border-radius: 50%;
-	}
-
-	.language-options a.selected .language-indicator {
-		background: currentColor;
+	.language-options a:focus-visible {
+		outline: 2px solid #ffadad;
+		outline-offset: -2px;
 	}
 
 	.system-status {
@@ -452,10 +461,6 @@ const spanishUrl = publicPath("/es/");
 		display: none;
 	}
 
-	.language-options {
-		flex-direction: row;
-		gap: 14px;
-	}
 
 	.system-status {
 		padding-top: 0;
@@ -495,8 +500,6 @@ const spanishUrl = publicPath("/es/");
 	.nav-item { min-height: 44px; }
 	.language-selector { padding-block: 12px; }
 	.language-label { margin-bottom: 8px; }
-	.language-options { flex-direction: row; gap: 12px; }
-	.language-options a { grid-template-columns: var(--nav-icon) 1fr 6px; gap: 8px; }
 	.system-status { padding-top: 12px; }
 	.location { margin-top: 6px; }
 }
@@ -537,10 +540,11 @@ const spanishUrl = publicPath("/es/");
 	.menu-open .nav-item:nth-child(6) { transition-delay: 150ms; }
 	.menu-open .nav-item:nth-child(7) { transition-delay: 180ms; }
 	.sidebar-bottom { margin-top: 16px; padding-top: 12px; border-top: 1px solid #ffadad25; }
-	.language-options a { display: inline-flex; align-items: center; width: auto; min-width: 44px; min-height: 44px; gap: 8px; }
+	.sidebar-bottom { flex-wrap: wrap; }
+	.language-selector { flex: 0 0 100%; }
 	:global(section[id]) { scroll-margin-top: 100px; }
 }
 @media (prefers-reduced-motion: reduce) {
-	.menu-panel, .nav-item, .menu-toggle, .menu-toggle-icon span { transition: none !important; }
+	.menu-panel, .nav-item, .menu-toggle, .menu-toggle-icon span, .language-options::before { transition: none !important; }
 }
 </style>
