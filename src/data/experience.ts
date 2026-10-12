@@ -19,6 +19,16 @@ export const experience: Experience[] = [
     },
   },
   {
+    company: 'Freelance',
+    employer: 'freelance',
+    period: { es: '2022 — actualidad', en: '2022 — present' },
+    role: { es: 'Desarrollador de proyectos a medida', en: 'Custom Application Developer' },
+    tasks: {
+      es: ['Desarrollo de proyectos a medida con Django y Laravel.', 'Despliegue de aplicaciones en PythonAnywhere.'],
+      en: ['Custom project development with Django and Laravel.', 'Application deployment on PythonAnywhere.'],
+    },
+  },
+  {
     company: 'Soluciones Informáticas MJ',
     employer: 'simj',
     period: { es: 'Feb. 2024 — abr. 2024', en: 'Feb. 2024 — Apr. 2024' },
@@ -66,16 +76,6 @@ export const experience: Experience[] = [
     tasks: {
       es: ['Desarrollo de aplicaciones móviles con React Native y Expo.', 'Desarrollo web con Laravel y MySQL.', 'Integración de funcionalidades, pruebas y corrección de incidencias.', 'Apoyo en despliegue y mantenimiento técnico del proyecto.'],
       en: ['Mobile application development with React Native and Expo.', 'Web development with Laravel and MySQL.', 'Feature integration, testing and bug fixes.', 'Project deployment and technical maintenance support.'],
-    },
-  },
-  {
-    company: 'Freelance',
-    employer: 'freelance',
-    period: { es: '2022 — actualidad', en: '2022 — present' },
-    role: { es: 'Desarrollador de proyectos a medida', en: 'Custom Application Developer' },
-    tasks: {
-      es: ['Desarrollo de proyectos a medida, principalmente con Django.', 'Despliegue de aplicaciones en PythonAnywhere.'],
-      en: ['Custom project development, primarily with Django.', 'Application deployment on PythonAnywhere.'],
     },
   },
 ];

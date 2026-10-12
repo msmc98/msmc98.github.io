@@ -50,7 +50,7 @@ const content = lang === 'es' ? es : en;
   .hero-links { font-size: 12px; } .hero-cv { margin-top: 0; padding: 10px 0; }
   .assistant-disclosure { margin-top: 24px; }
   @media (max-width: 1250px) { .hero-body { grid-template-columns: minmax(0, 1fr) 155px; gap: 24px; } .telemetry { margin-inline: 0; } }
-  @media (max-width: 950px) { .hero-body { grid-template-columns: 1fr; } .hero-visual { width: 130px; justify-self: end; } .telemetry { display: none; } }
-  @media (max-width: 760px) { .hero-body { gap: 16px; } h1 { font-size: clamp(40px, 8vw, 62px); } .hero-role { margin-top: 20px; } .hero-value { font-size: 25px; } .hero-visual { width: 100px; } }
+  @media (max-width: 950px) { .hero-body { grid-template-columns: 1fr; } .hero-visual { width: min(100%, 210px); justify-self: center; } }
+  @media (max-width: 760px) { .hero-body { gap: 36px; } h1 { font-size: clamp(40px, 8vw, 62px); } .hero-role { margin-top: 20px; } .hero-value { font-size: 25px; } .telemetry { margin: 24px 0 0; } }
   @media (max-width: 480px) { .hud { font-size: 8px; } .hero-status { font-size: 9px; } }
 </style>

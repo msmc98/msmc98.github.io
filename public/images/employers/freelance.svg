@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="88" viewBox="0 0 300 88" fill="none">
+  <title>IN MY OWN</title>
+  <g transform="translate(0 9) scale(.8)">
+    <path d="M40 4 74 24v40L40 84 6 64V24Z" stroke="#7aa8eb" stroke-width="1.5"/>
+    <path d="M74 64 40 84" stroke="#f04a5c" stroke-width="1.5"/>
+    <g stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 46V31m0 5c0-7 10-7 10 0v10m0-10c0-7 10-7 10 0v10" stroke="#ffffff"/>
+      <path d="M48 31h12L48 46h12" stroke="#7aa8eb"/>
+    </g>
+    <g stroke="#ffffff" stroke-opacity=".8" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M31 54v10m0-4c0-5-7-5-7 0s7 5 7 0M37 60h7c0-5-7-5-7 0 0 4 5 5 7 2m5-5 3.5 7 3.5-7"/>
+    </g>
+  </g>
+  <text x="78" y="52" fill="#fff" font-family="Arial, sans-serif" font-size="26" font-weight="700" letter-spacing=".5">IN MY OWN</text>
+  <path d="M80 65h152" stroke="#7aa8eb" stroke-opacity=".4"/>
+  <path d="M80 65h28" stroke="#ff7584" stroke-width="2"/>
+</svg>

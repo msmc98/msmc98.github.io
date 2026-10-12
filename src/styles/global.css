@@ -137,7 +137,7 @@ section[id] { scroll-margin-top: 24px; }
 #main-content .disclosure-body > :last-child { margin-block-end: 0; }
 #main-content :is(.glass-panel, .case-study, .verified-stack article) { background: linear-gradient(135deg, #1b3c64, #122b4b); }
 /* Static hourglass lattice: the texture is part of the material, below all content. */
-#main-content :is(article.glass-panel, .case-study, .verified-stack article, .process-shell, .stage-content, .education-record) {
+#main-content :is(article.glass-panel, .case-study, .verified-stack article, .process-shell, .stage-content, .education-record, .contact-bubble) {
   background-image: var(--card-texture), linear-gradient(135deg, #1b3c64, #122b4b);
   background-size: 144px 144px, cover;
   background-repeat: repeat, no-repeat;
