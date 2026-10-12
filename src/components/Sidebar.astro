@@ -487,6 +487,27 @@ const spanishUrl = publicPath("/es/");
 	}
 }
 
+@media (min-width: 761px) {
+	.sidebar-inner { padding: clamp(12px, 2.5vh, 24px) 24px; }
+	.brand { flex-shrink: 0; }
+	.brand :global(.brand-symbol) { width: clamp(44px, 9vh, 76px); }
+	.navigation { gap: 3px; padding-block: 12px; }
+	.nav-item { min-height: 44px; }
+	.language-selector { padding-block: 12px; }
+	.language-label { margin-bottom: 8px; }
+	.language-options { flex-direction: row; gap: 12px; }
+	.language-options a { grid-template-columns: var(--nav-icon) 1fr 6px; gap: 8px; }
+	.system-status { padding-top: 12px; }
+	.location { margin-top: 6px; }
+}
+@media (min-width: 761px) and (max-height: 560px) {
+	.sidebar-inner { padding-block: 8px; }
+	.brand :global(.brand-symbol) { width: 44px; }
+	.navigation { gap: 2px; padding-block: 8px; }
+	.language-selector { padding-block: 8px; }
+	.language-label, .system-status { display: none; }
+}
+
 @media (max-width: 760px) {
 	.sidebar { position: sticky; top: 0; overflow: visible; }
 	.sidebar-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0; padding: 16px 22px; }

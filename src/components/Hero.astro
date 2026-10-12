@@ -26,7 +26,7 @@ const content = lang === 'es' ? es : en;
 </section>
 <style>
   .hero { position: relative; min-height: 0; overflow: hidden; background: radial-gradient(ellipse at 85% 40%, #568bdb18, transparent 60%), var(--background); }
-  .hero-body { display: grid; grid-template-columns: minmax(0, 1fr) 210px; gap: 32px; align-items: center; padding-block: var(--hero-space); }
+  .hero-body { display: grid; grid-template-columns: minmax(0, 1fr) 330px; gap: 32px; align-items: center; padding-block: var(--hero-space); }
   .hud { display: flex; justify-content: space-between; gap: 16px; padding-bottom: 12px; border-bottom: 1px solid var(--border); font: 9px var(--mono-font); letter-spacing: .12em; color: var(--text-muted); }
   .hero-content { position: relative; z-index: 1; width: 100%; min-width: 0; }
   .hero-status { display: flex; flex-wrap: wrap; align-items: center; gap: 9px; margin-bottom: 26px; font: 10px var(--mono-font); text-transform: uppercase; letter-spacing: .12em; color: var(--text-muted); }
@@ -49,7 +49,7 @@ const content = lang === 'es' ? es : en;
   .hero-actions, .hero-links { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 22px; margin-top: 24px; }
   .hero-links { font-size: 12px; } .hero-cv { margin-top: 0; padding: 10px 0; }
   .assistant-disclosure { margin-top: 24px; }
-  @media (max-width: 1250px) { .hero-body { grid-template-columns: minmax(0, 1fr) 155px; gap: 24px; } .telemetry { margin-inline: 0; } }
+  @media (max-width: 1250px) { .hero-body { grid-template-columns: minmax(0, 1fr) 260px; gap: 24px; } .telemetry { margin-inline: 0; } }
   @media (max-width: 950px) { .hero-body { grid-template-columns: 1fr; } .hero-visual { width: min(100%, 210px); justify-self: center; } }
   @media (max-width: 760px) { .hero-body { gap: 36px; } h1 { font-size: clamp(40px, 8vw, 62px); } .hero-role { margin-top: 20px; } .hero-value { font-size: 25px; } .telemetry { margin: 24px 0 0; } }
   @media (max-width: 480px) { .hud { font-size: 8px; } .hero-status { font-size: 9px; } }
