@@ -23,13 +23,13 @@ export const caseStudies: CaseStudy[] = [
     source: 'Confirmación de Manuel, 10/10/2026; original de producción privado. Versión anonimizada autorizada el 11/10/2026.',
     technologies: ['Laravel', 'MySQL'],
     preview: arfeDashboardPreview,
-    context: { es: 'Aplicación de gestión interna de seguros en producción. La captura facilitada muestra un dashboard y áreas de clientes, pólizas, recibos y siniestros.', en: 'An insurance management application in production. The supplied screenshot shows a dashboard and areas for clients, policies, receipts and claims.' },
+    context: { es: 'Aplicación de gestión interna de seguros en producción, con un dashboard y áreas de clientes, pólizas, recibos y siniestros.', en: 'An insurance management application in production, with a dashboard and areas for clients, policies, receipts and claims.' },
     contribution: { es: 'Desarrollo completo desde cero con Laravel y MySQL.', en: 'Complete development from scratch with Laravel and MySQL.' },
     deliverable: { es: 'Aplicación empresarial a medida con panel de gestión, importaciones, exportaciones y configuración de retenciones por periodo.', en: 'A custom business application with a management dashboard, imports, exports and withholding configuration by period.' },
     problem: { es: 'Gestión de información de seguros: colaboradores, clientes, vínculos entre clientes, pólizas, recibos y siniestros.', en: 'Managing insurance information: collaborators, clients, client relationships, policies, receipts and claims.' },
-    decisions: { es: 'Laravel para la aplicación y MySQL como base de datos. La estructura interna y los detalles de seguridad no se publican sin documentación adicional.', en: 'Laravel for the application and MySQL for the database. Internal structure and security details require additional documentation before publication.' },
+    decisions: { es: 'Laravel para la aplicación y MySQL como base de datos.', en: 'Laravel for the application and MySQL for the database.' },
     challenges: null,
-    outcome: { es: 'Aplicación en producción, acreditada por la captura aportada. No se publican cifras operativas ni datos de clientes.', en: 'Application in production, evidenced by the supplied screenshot. Operational figures and client data remain private.' },
+    outcome: { es: 'Aplicación en producción para la gestión interna de seguros.', en: 'Application in production for internal insurance management.' },
     learnings: null,
   },
   {
@@ -38,7 +38,7 @@ export const caseStudies: CaseStudy[] = [
     technologies: ['Python', 'Django REST Framework'],
     context: { es: 'Proyecto realizado durante el puesto en TicTac Comunicación, entre abril y octubre de 2023.', en: 'Work carried out at TicTac Comunicación, between April and October 2023.' },
     contribution: { es: 'Creación de una API con Django REST Framework para Córdoba Embrujada.', en: 'API development with Django REST Framework for Córdoba Embrujada.' },
-    deliverable: { es: 'Una API: contribución backend documentada en la experiencia profesional.', en: 'An API: a backend contribution documented in the professional experience.' },
+    deliverable: { es: 'API para Córdoba Embrujada con Django REST Framework.', en: 'API for Córdoba Embrujada built with Django REST Framework.' },
     problem: null, decisions: null, challenges: null, outcome: null, learnings: null,
   },
   {
@@ -52,6 +52,6 @@ export const caseStudies: CaseStudy[] = [
   },
 ];
 export const caseLabels = {
-  es: { title: 'Detrás de la interfaz', intro: 'Contribuciones profesionales documentadas: backend y aplicaciones empresariales.', type: 'Contribución profesional', expand: 'Ver alcance documentado', context: 'Contexto', role: 'Mi contribución', deliverable: 'Entrega documentada', problem: 'Problema', decisions: 'Decisiones técnicas', challenges: 'Retos', outcome: 'Resultado', learnings: 'Aprendizajes', scope: 'Estos resúmenes recogen el alcance del CV. No incluyen código interno, métricas ni decisiones de arquitectura sin documentar.', experience: 'Ver experiencia relacionada' },
-  en: { title: 'Behind the interface', intro: 'Documented professional contributions: backend and business applications.', type: 'Professional contribution', expand: 'View documented scope', context: 'Context', role: 'My contribution', deliverable: 'Documented delivery', problem: 'Problem', decisions: 'Technical decisions', challenges: 'Challenges', outcome: 'Outcome', learnings: 'Learnings', scope: 'These summaries reflect the scope recorded in the CV. Internal code, metrics and undocumented architecture decisions are omitted.', experience: 'View related experience' },
+  es: { title: 'Detrás de la interfaz', intro: 'Contribuciones profesionales: backend y aplicaciones empresariales.', type: 'Contribución profesional', expand: 'Ver detalles', context: 'Contexto', role: 'Mi contribución', deliverable: 'Entrega', problem: 'Problema', decisions: 'Decisiones técnicas', challenges: 'Retos', outcome: 'Resultado', learnings: 'Aprendizajes', experience: 'Ver experiencia relacionada' },
+  en: { title: 'Behind the interface', intro: 'Professional contributions: backend and business applications.', type: 'Professional contribution', expand: 'View details', context: 'Context', role: 'My contribution', deliverable: 'Delivery', problem: 'Problem', decisions: 'Technical decisions', challenges: 'Challenges', outcome: 'Outcome', learnings: 'Learnings', experience: 'View related experience' },
 };

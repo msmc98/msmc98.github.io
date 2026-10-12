@@ -23,8 +23,13 @@ const spanishUrl = publicPath("/es/");
 		<a href={lang === "en" ? englishUrl : spanishUrl} class="brand" aria-label={lang === 'es' ? 'mzdev · Inicio del portfolio' : 'mzdev · Portfolio home'}>
 			<BrandMark />
 		</a>
+		<button class="menu-toggle" type="button" aria-expanded="false" aria-controls="portfolio-menu" aria-label={lang === 'es' ? 'Abrir menú' : 'Open menu'} data-open-label={lang === 'es' ? 'Abrir menú' : 'Open menu'} data-close-label={lang === 'es' ? 'Cerrar menú' : 'Close menu'}>
+			<span class="menu-toggle-label">{lang === 'es' ? 'Menú' : 'Menu'}</span>
+			<span class="menu-toggle-icon" aria-hidden="true"><span></span><span></span><span></span></span>
+		</button>
 
 		<!-- Navigation -->
+		<div class="menu-panel" id="portfolio-menu">
 		<nav class="navigation" aria-label={lang === 'es' ? 'Navegación principal' : 'Main navigation'}>
 
 			<a href="#profile" class="nav-item active" aria-current="location">
@@ -35,20 +40,28 @@ const spanishUrl = publicPath("/es/");
 				<span>{content.navigation.profile}</span>
 			</a>
 
-			<a href="#experience" class="nav-item">
-				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-					<rect x="4" y="7" width="16" height="12" rx="2" />
-					<path d="M9 7V5H15V7M4 11H20M10 11V13H14V11" />
-				</svg>
-				<span>{content.navigation.experience}</span>
-			</a>
-
 			<a href="#projects" class="nav-item">
 				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
 					<rect x="4" y="4" width="16" height="16" rx="2" />
 					<path d="M8 9H16M8 13H13M8 17H11" />
 				</svg>
 				<span>{content.navigation.projects}</span>
+			</a>
+
+			<a href="#profile-details" class="nav-item">
+				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<circle cx="12" cy="8" r="3.5" />
+					<path d="M5 20C5.8 15.9 8.1 14 12 14C15.9 14 18.2 15.9 19 20" />
+				</svg>
+				<span>{lang === 'es' ? 'Cómo trabajo' : 'How I work'}</span>
+			</a>
+
+			<a href="#experience" class="nav-item">
+				<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+					<rect x="4" y="7" width="16" height="12" rx="2" />
+					<path d="M9 7V5H15V7M4 11H20M10 11V13H14V11" />
+				</svg>
+				<span>{content.navigation.experience}</span>
 			</a>
 
 			<a href="#skills" class="nav-item">
@@ -109,10 +122,38 @@ const spanishUrl = publicPath("/es/");
 
 		</div>
 
+		</div>
 	</div>
 </aside>
 
 <script>
+  const sidebar = document.querySelector<HTMLElement>('.sidebar')!;
+  const menuToggle = sidebar.querySelector<HTMLButtonElement>('.menu-toggle')!;
+  const menuPanel = sidebar.querySelector<HTMLElement>('.menu-panel')!;
+  const mobileMenu = window.matchMedia('(max-width: 760px)');
+  function setMenuOpen(open: boolean, restoreFocus = false) {
+    const expanded = mobileMenu.matches && open;
+    sidebar.classList.toggle('menu-open', expanded);
+    menuToggle.setAttribute('aria-expanded', String(expanded));
+    menuToggle.setAttribute('aria-label', (expanded ? menuToggle.dataset.closeLabel : menuToggle.dataset.openLabel)!);
+    menuPanel.inert = mobileMenu.matches && !expanded;
+    if (restoreFocus && mobileMenu.matches) menuToggle.focus({ preventScroll: true });
+  }
+  menuToggle.addEventListener('click', () => setMenuOpen(menuToggle.getAttribute('aria-expanded') !== 'true'));
+  menuPanel.addEventListener('click', event => {
+    if ((event.target as Element).closest('a')) setMenuOpen(false, true);
+  });
+  document.addEventListener('keydown', event => {
+    if (event.key === 'Escape' && menuToggle.getAttribute('aria-expanded') === 'true') setMenuOpen(false, true);
+  });
+  document.addEventListener('pointerdown', event => {
+    if (!sidebar.contains(event.target as Node)) setMenuOpen(false, menuPanel.contains(document.activeElement));
+  });
+  sidebar.addEventListener('focusout', () => {
+    requestAnimationFrame(() => { if (!sidebar.contains(document.activeElement)) setMenuOpen(false); });
+  });
+  mobileMenu.addEventListener('change', () => setMenuOpen(false, menuPanel.contains(document.activeElement)));
+  setMenuOpen(false);
   const navigationLinks = Array.from(document.querySelectorAll<HTMLAnchorElement>('.navigation .nav-item'));
   const sections = navigationLinks.map((link) => document.getElementById(link.hash.slice(1))).filter((section): section is HTMLElement => Boolean(section)).sort((a, b) => a.getBoundingClientRect().top - b.getBoundingClientRect().top);
   function updateNavigation() {
@@ -138,6 +179,8 @@ const spanishUrl = publicPath("/es/");
 </script>
 
 <style>
+	.menu-toggle { display: none; }
+	.menu-panel { display: contents; }
 	.sidebar {
 		--nav-inline: 13px;
 		--nav-icon: 18px;
@@ -442,5 +485,41 @@ const spanishUrl = publicPath("/es/");
 	.system-status {
 		display: none;
 	}
+}
+
+@media (max-width: 760px) {
+	.sidebar { position: sticky; top: 0; overflow: visible; }
+	.sidebar-inner { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0; padding: 16px 22px; }
+	.brand { justify-self: start; align-self: center; }
+	.brand :global(.brand-symbol) { width: 46px; }
+	.menu-toggle { display: inline-flex; align-items: center; justify-content: center; gap: 14px; min-height: 48px; padding: 0 16px; border: 1px solid #ffadad55; border-radius: 8px; background: linear-gradient(125deg, #811b3050, #240a1490); color: white; box-shadow: inset 0 1px 0 #ffadad20; cursor: pointer; transition: border-color 220ms, box-shadow 220ms; }
+	.menu-toggle-label { font: 11px var(--mono-font); text-transform: uppercase; letter-spacing: .12em; }
+	.menu-toggle-icon { display: grid; gap: 5px; width: 23px; }
+	.menu-toggle-icon span { display: block; height: 2px; width: 23px; background: #ffadad; border-radius: 2px; transition: transform 320ms ease, opacity 200ms, width 320ms ease; }
+	.menu-toggle-icon span:nth-child(2) { width: 16px; justify-self: end; }
+	.menu-open .menu-toggle { border-color: #ffadad; box-shadow: 0 0 22px #e52a4030, inset 0 1px 0 #ffadad30; }
+	.menu-open .menu-toggle-icon span:first-child { transform: translateY(7px) rotate(45deg); }
+	.menu-open .menu-toggle-icon span:nth-child(2) { opacity: 0; transform: translateX(-8px); }
+	.menu-open .menu-toggle-icon span:last-child { transform: translateY(-7px) rotate(-45deg); }
+	.menu-panel { display: block; position: absolute; inset: 100% 0 auto; max-height: calc(100dvh - 85px); overflow-y: auto; overscroll-behavior: contain; padding: 16px 22px 24px; border-bottom: 1px solid #ffadad55; background: repeating-linear-gradient(0deg, #ffc5c504 0 1px, transparent 1px 4px), radial-gradient(ellipse at 100% 0%, #8f102255, transparent 65%), linear-gradient(145deg, #2e0c17, #08152d); box-shadow: 0 25px 45px #08152db3; opacity: 0; visibility: hidden; transform: translateY(-10px); clip-path: inset(0 0 100% 0); transition: clip-path 380ms cubic-bezier(.22, 1, .36, 1), transform 380ms ease, opacity 240ms ease, visibility 380ms; }
+	.menu-panel::before { content: ''; display: block; height: 1px; background: linear-gradient(90deg, #ffadad, #7aa8eb, transparent); box-shadow: 0 0 12px #ffadad66; }
+	.menu-open .menu-panel { opacity: 1; visibility: visible; transform: translateY(0); clip-path: inset(0); }
+	.navigation { flex-direction: column; margin: 12px 0 0; padding: 0; gap: 4px; overflow: visible; counter-reset: menu-item; }
+	.nav-item { min-height: 48px; padding: 0 14px; font-size: 13px; border-radius: 6px; transform: translateX(-12px); opacity: 0; transition: transform 280ms ease, opacity 220ms ease, background 180ms; }
+	.nav-item::before { inset: 12px auto 12px 0; width: 2px; height: auto; }
+	.nav-item::after { counter-increment: menu-item; content: '0' counter(menu-item); margin-left: auto; color: #ffadad80; font: 10px var(--mono-font); }
+	.menu-open .nav-item { transform: translateX(0); opacity: 1; }
+	.menu-open .nav-item:nth-child(2) { transition-delay: 30ms; }
+	.menu-open .nav-item:nth-child(3) { transition-delay: 60ms; }
+	.menu-open .nav-item:nth-child(4) { transition-delay: 90ms; }
+	.menu-open .nav-item:nth-child(5) { transition-delay: 120ms; }
+	.menu-open .nav-item:nth-child(6) { transition-delay: 150ms; }
+	.menu-open .nav-item:nth-child(7) { transition-delay: 180ms; }
+	.sidebar-bottom { margin-top: 16px; padding-top: 12px; border-top: 1px solid #ffadad25; }
+	.language-options a { display: inline-flex; align-items: center; width: auto; min-width: 44px; min-height: 44px; gap: 8px; }
+	:global(section[id]) { scroll-margin-top: 100px; }
+}
+@media (prefers-reduced-motion: reduce) {
+	.menu-panel, .nav-item, .menu-toggle, .menu-toggle-icon span { transition: none !important; }
 }
 </style>

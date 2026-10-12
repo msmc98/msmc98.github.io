@@ -190,16 +190,6 @@ body :is(.commands a, .filters button, .site-selector button, .language-options 
 .case-link { display: inline-flex; align-items: center; min-height: 44px; font-size: 12px; color: var(--blue-light); }
 :root body :is(.orbit-ring, .satellite, .idea-orb) { animation: none; }
 @media(max-width: 760px) {
-  :root body .sidebar { position: sticky; top: 0; }
-  body .sidebar .sidebar-inner { padding: 8px 16px; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; }
-  body .sidebar .brand { display: none; }
-  body .sidebar .navigation { grid-column: 1 / -1; grid-row: 2; margin-block: 0; padding-block: 0; }
-  body .sidebar .sidebar-bottom { grid-column: 2; grid-row: 1; margin-top: 0; }
-  body .sidebar .language-selector { padding: 0; }
-  body .sidebar .language-options a { display: inline-flex; align-items: center; width: auto; min-width: 44px; }
-  body .sidebar .system-status { display: none; }
-  body .sidebar .nav-item { font-size: 11px; padding-inline: 10px; gap: 6px; }
-  body .sidebar .nav-item svg { width: 16px; }
   section[id] { scroll-margin-top: 110px; }
   body :is(.preview-heading button, .dialog-heading button, .stage-navigation button) { min-width: 44px; min-height: 44px; }
 }

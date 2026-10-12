@@ -54,7 +54,7 @@ for (const project of galleryProjects) {
     ? { es: 'Mejoras y optimización de una tienda existente; no desarrollé la versión inicial.', en: 'Improvements and optimization of an existing store; I did not build its initial version.' }
     : project.id === 'bomtie'
       ? { es: 'Mantenimiento de la tienda como parte de mi trabajo en empresa; no desarrollé la versión inicial.', en: 'Store maintenance as part of my work at a company; I did not build its initial version.' }
-      : { es: 'Desarrollo desde cero, confirmado por Manuel.', en: 'Development from scratch, confirmed by Manuel.' };
+      : { es: 'Desarrollo desde cero.', en: 'Development from scratch.' };
   if (project.id === 'andalucia') {
     project.contribution = { es: 'Creación de las webs originales durante mi etapa en TicTac Comunicación. No participé en el rediseño posterior.', en: 'Creation of the original websites during my time at TicTac Comunicación. I did not participate in the later redesign.' };
     project.previewNote = { es: 'Las capturas muestran las webs actuales y pueden incluir el rediseño posterior. No representan exclusivamente mi trabajo original.', en: 'The screenshots show the current websites and may include the later redesign. They do not exclusively represent my original work.' };

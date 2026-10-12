@@ -10,11 +10,11 @@ const optionalFields = ['problem', 'decisions', 'challenges', 'outcome', 'learni
   <div class="case-grid">{caseStudies.map(study => <article class="case-study" id={`case-${study.id}`}>
     <span class="case-type">{study.employer}</span>
     <h4>{study.name}</h4><p>{study.contribution[lang]}</p>
-    <ul class="case-stack" aria-label={lang === 'es' ? 'Tecnologías acreditadas' : 'Documented technologies'}>{study.technologies.map(tech => <li>{tech}</li>)}</ul>
+    <ul class="case-stack" aria-label={lang === 'es' ? 'Tecnologías' : 'Technologies'}>{study.technologies.map(tech => <li>{tech}</li>)}</ul>
     <details><summary>{labels.expand}</summary>
       {study.preview && <figure><a href={publicPath(study.preview.src)} target="_blank" rel="noopener noreferrer" aria-label={lang === 'es' ? 'Abrir dashboard anonimizado de ARFE' : 'Open anonymized ARFE dashboard'}><img src={publicPath(study.preview.src)} width={study.preview.width} height={study.preview.height} loading="lazy" decoding="async" alt={lang === 'es' ? 'Dashboard de ARFE con datos ficticios, DNI y números de póliza sustituidos por XXXXXXX' : 'ARFE dashboard with fictional data, IDs and policy numbers replaced by XXXXXXX'} /></a><figcaption>{lang === 'es' ? 'Vista anonimizada con datos ficticios. Ampliar ↗' : 'Anonymized view with fictional data. Enlarge ↗'}</figcaption></figure>}
       <dl><dt>{labels.context}</dt><dd>{study.context[lang]}</dd><dt>{labels.role}</dt><dd>{study.contribution[lang]}</dd><dt>{labels.deliverable}</dt><dd>{study.deliverable[lang]}</dd>{optionalFields.map(key => study[key] && <><dt>{labels[key]}</dt><dd>{study[key]![lang]}</dd></>)}</dl>
-      {study.id !== 'arfe' && <p class="scope">{labels.scope}</p>}<a href="#experience">{labels.experience} ↓</a>
+      <a href="#experience">{labels.experience} ↓</a>
     </details>
   </article>)}</div>
 </div>
